@@ -15,7 +15,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-peach-50 via-white to-sage-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFF8F4] via-white to-[#F3F8F5] px-4">
       <SignupForm onSuccess={handleSuccess} onSwitchToLogin={handleSwitchToLogin} />
     </div>
   );

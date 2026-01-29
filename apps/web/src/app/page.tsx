@@ -1,14 +1,17 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Check, Download, RefreshCw, ImageIcon } from 'lucide-react';
+import { ArrowRight, Check, Download, RefreshCw, ImageIcon, User } from 'lucide-react';
+import Link from 'next/link';
 import { DropZone } from '@/components/upload/DropZone';
 import { ProcessingStatus } from '@/components/progress/ProcessingStatus';
 import { ImageCompare } from '@/components/compare/ImageCompare';
 import { useUpload } from '@/hooks/useUpload';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
   const { state, upload, reset, previewUrl } = useUpload();
+  const { user, signOut, isLoading } = useAuth();
 
   return (
     <main className="min-h-screen bg-white">
@@ -35,11 +38,32 @@ export default function Home() {
             </a>
             <a 
               href="https://github.com" 
-              className="text-sm text-stone-900 flex items-center gap-1.5 hover:gap-2.5 transition-all"
+              className="text-sm text-stone-500 hover:text-stone-900 transition-colors"
             >
               GitHub
-              <ArrowRight className="w-3.5 h-3.5" />
             </a>
+            
+            {!isLoading && (
+              user ? (
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-stone-500">{user.email?.split('@')[0]}</span>
+                  <button 
+                    onClick={() => signOut()}
+                    className="text-sm text-stone-400 hover:text-stone-900 transition-colors"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  href="/auth/login"
+                  className="text-sm font-medium text-white bg-stone-900 hover:bg-stone-800 px-4 py-2 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  Sign in
+                </Link>
+              )
+            )}
           </motion.div>
         </nav>
       </header>
@@ -92,7 +116,7 @@ export default function Home() {
                 <span className="w-5 h-5 rounded-full bg-[#F3F8F5] flex items-center justify-center">
                   <Check className="w-3 h-3 text-[#86B09B]" />
                 </span>
-                No signup
+                4x upscaling
               </span>
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-[#F3F8F5] flex items-center justify-center">
