@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { uploadImage, pollJobStatus, getSignedDownloadUrl, ApiError } from '@/lib/api';
 import type { Job, EnhanceOptions } from '@rebloom/shared';
 
@@ -18,22 +18,35 @@ export interface UseUploadResult {
   previewUrl: string | null;
 }
 
+/**
+ * Custom hook for handling image upload and processing workflow
+ * Manages the complete lifecycle: upload → process → complete/error
+ */
 export function useUpload(): UseUploadResult {
   const [state, setState] = useState<UploadState>({ status: 'idle' });
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  // Cleanup preview URL on unmount
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   const upload = useCallback(async (file: File, options?: Partial<EnhanceOptions>) => {
     try {
-      // Créer preview locale
+      // Create local preview
       const objectUrl = URL.createObjectURL(file);
       setPreviewUrl(objectUrl);
 
-      // Upload
+      // Start upload
       setState({ status: 'uploading', progress: 0 });
 
       const uploadResponse = await uploadImage(file, options);
 
-      // Polling pour le statut
+      // Start polling for job status
       setState({
         status: 'processing',
         job: {
@@ -60,13 +73,14 @@ export function useUpload(): UseUploadResult {
       // Get signed download URL
       const downloadUrl = await getSignedDownloadUrl(completedJob.id);
 
-      // Succès
+      // Success
       setState({
         status: 'completed',
         job: completedJob,
         downloadUrl,
       });
     } catch (error) {
+      // Extract safe error message
       const message =
         error instanceof ApiError
           ? error.message

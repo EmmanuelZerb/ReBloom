@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
 
 // Premium typography - Outfit for headings, JetBrains Mono for code
 const outfit = Outfit({
@@ -19,7 +20,8 @@ const jetbrainsMono = JetBrains_Mono({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FFFDFB',
+  themeColor: '#FFFFFF',
+  colorScheme: 'light',
 };
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export const metadata: Metadata = {
   creator: 'ReBloom',
   publisher: 'ReBloom',
   robots: 'index, follow',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   openGraph: {
     title: 'ReBloom - AI Image Enhancement',
     description: 'Transform blurry photos into sharp, stunning images with AI',
@@ -52,7 +55,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="min-h-screen antialiased">
-        <AuthProvider>{children}</AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>{children}</AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

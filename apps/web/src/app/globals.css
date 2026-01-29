@@ -233,6 +233,17 @@
   outline-offset: 2px;
 }
 
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+  }
+  
+  .btn-prism {
+    border: 2px solid currentColor;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,

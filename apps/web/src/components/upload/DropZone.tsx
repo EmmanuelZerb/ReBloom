@@ -3,7 +3,7 @@
 import { useCallback, useState, useId } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, X, ArrowRight, ImageIcon } from 'lucide-react';
+import { Upload, X, ArrowRight } from 'lucide-react';
 import { cn, formatBytes } from '@/lib/utils';
 import { UPLOAD_CONFIG } from '@rebloom/shared';
 
