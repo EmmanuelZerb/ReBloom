@@ -1,6 +1,10 @@
 /**
  * Rate Limiting Middleware
  * Implémentation robuste avec support Redis et fallback en mémoire
+ * Features:
+ * - Redis-backed rate limiting with in-memory fallback
+ * - Periodic cleanup to prevent memory leaks
+ * - Configurable fail-closed mode for critical routes
  */
 
 import { Context, Next } from 'hono';
@@ -23,6 +27,12 @@ interface RateLimitConfig {
   message?: string;
   /** Fonction pour extraire l'identifiant (IP par défaut) */
   keyGenerator?: (c: Context) => string;
+  /**
+   * Fail mode when rate limit check fails (Redis unavailable)
+   * - 'open': Allow request through (default for non-critical routes)
+   * - 'closed': Block request (recommended for critical routes like upload)
+   */
+  failMode?: 'open' | 'closed';
 }
 
 interface RateLimitResult {
@@ -38,13 +48,34 @@ interface RateLimitResult {
 
 class MemoryStore {
   private store: Map<string, { count: number; resetAt: number }> = new Map();
+  private cleanupInterval: ReturnType<typeof setInterval> | null = null;
+  private readonly maxEntries = 50000; // Max entries before forced cleanup
+  private readonly cleanupIntervalMs = 60000; // Cleanup every minute
+
+  constructor() {
+    // Start periodic cleanup
+    this.startPeriodicCleanup();
+  }
+
+  private startPeriodicCleanup(): void {
+    if (this.cleanupInterval) return;
+
+    this.cleanupInterval = setInterval(() => {
+      this.cleanup();
+    }, this.cleanupIntervalMs);
+
+    // Don't prevent process exit
+    this.cleanupInterval.unref();
+
+    logger.debug('MemoryStore periodic cleanup started');
+  }
 
   async increment(key: string, windowSeconds: number): Promise<RateLimitResult> {
     const now = Date.now();
     const resetAt = now + windowSeconds * 1000;
-    
+
     const existing = this.store.get(key);
-    
+
     if (existing && existing.resetAt > now) {
       existing.count++;
       return {
@@ -54,14 +85,15 @@ class MemoryStore {
         reset: Math.ceil((existing.resetAt - now) / 1000),
       };
     }
-    
+
     this.store.set(key, { count: 1, resetAt });
-    
-    // Nettoyage périodique
-    if (this.store.size > 10000) {
+
+    // Emergency cleanup if too many entries (protection against attacks)
+    if (this.store.size > this.maxEntries) {
+      logger.warn({ storeSize: this.store.size }, 'MemoryStore emergency cleanup triggered');
       this.cleanup();
     }
-    
+
     return {
       success: true,
       limit: 0,
@@ -80,10 +112,35 @@ class MemoryStore {
 
   private cleanup(): void {
     const now = Date.now();
+    let cleaned = 0;
+
     for (const [key, value] of this.store.entries()) {
       if (value.resetAt <= now) {
         this.store.delete(key);
+        cleaned++;
       }
+    }
+
+    if (cleaned > 0) {
+      logger.debug({ cleaned, remaining: this.store.size }, 'MemoryStore cleanup completed');
+    }
+  }
+
+  /**
+   * Get current store size (for monitoring)
+   */
+  getSize(): number {
+    return this.store.size;
+  }
+
+  /**
+   * Stop the cleanup interval (for graceful shutdown)
+   */
+  stop(): void {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.cleanupInterval = null;
+      logger.debug('MemoryStore cleanup stopped');
     }
   }
 }
@@ -180,6 +237,7 @@ export function rateLimit(config: RateLimitConfig) {
     keyPrefix = 'rl',
     message = 'Too many requests, please try again later',
     keyGenerator = defaultKeyGenerator,
+    failMode = 'open',
   } = config;
 
   return async (c: Context, next: Next) => {
@@ -199,9 +257,9 @@ export function rateLimit(config: RateLimitConfig) {
 
       if (count > maxRequests) {
         logger.warn({ identifier, count, maxRequests }, 'Rate limit exceeded');
-        
+
         c.header('Retry-After', result.reset.toString());
-        
+
         return c.json(
           {
             success: false,
@@ -217,8 +275,26 @@ export function rateLimit(config: RateLimitConfig) {
 
       await next();
     } catch (error) {
-      // En cas d'erreur, laisser passer la requête (fail-open)
-      logger.error({ error }, 'Rate limit check failed');
+      // Handle rate limit check failure based on failMode
+      logger.error({ error, failMode }, 'Rate limit check failed');
+
+      if (failMode === 'closed') {
+        // Fail-closed: Block the request when rate limiting is unavailable
+        logger.warn({ identifier }, 'Blocking request due to rate limit check failure (fail-closed mode)');
+        return c.json(
+          {
+            success: false,
+            error: {
+              code: 'SERVICE_UNAVAILABLE',
+              message: 'Service temporarily unavailable. Please try again later.',
+            },
+          },
+          503
+        );
+      }
+
+      // Fail-open: Allow request through (default for non-critical routes)
+      logger.debug({ identifier }, 'Allowing request through despite rate limit check failure (fail-open mode)');
       await next();
     }
   };
@@ -228,12 +304,13 @@ export function rateLimit(config: RateLimitConfig) {
 // Preset Rate Limiters
 // ============================================
 
-/** Limite stricte pour l'upload (10 requêtes par minute) */
+/** Limite stricte pour l'upload (10 requêtes par minute) - fail-closed for security */
 export const uploadRateLimit = rateLimit({
   maxRequests: 10,
   windowSeconds: 60,
   keyPrefix: 'rl:upload',
   message: 'Upload limit reached. Please wait before uploading more images.',
+  failMode: 'closed', // Critical route: block requests if rate limiting fails
 });
 
 /** Limite standard pour les API (100 requêtes par minute) */

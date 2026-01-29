@@ -1,6 +1,7 @@
 /**
  * Worker de traitement des images
  * Consomme les jobs de la queue et appelle le provider AI
+ * Includes automatic cleanup of orphaned files on failure
  */
 
 import { Worker, Job as BullJob } from 'bullmq';
@@ -12,6 +13,57 @@ import { storage } from '../services/storage';
 import { getAIProvider } from '../services/ai/provider';
 import { JOB_CONFIG, ERROR_CODES } from '@rebloom/shared';
 import type { ProcessingJobData, ProcessingJobResult, OutputFormat } from '@rebloom/shared';
+
+// ============================================
+// File Cleanup Helper
+// ============================================
+
+/**
+ * Cleanup orphaned files when processing fails permanently
+ * Only cleans up on final attempt to allow retries
+ */
+async function cleanupOrphanedFiles(
+  imagePath: string,
+  jobId: string,
+  attemptsMade: number,
+  maxAttempts: number
+): Promise<void> {
+  // Only cleanup on final attempt (no more retries)
+  if (attemptsMade < maxAttempts) {
+    logger.debug(
+      { jobId, attemptsMade, maxAttempts },
+      'Skipping cleanup - retries remaining'
+    );
+    return;
+  }
+
+  logger.info({ jobId, imagePath }, 'Cleaning up orphaned files after final failure');
+
+  try {
+    // Delete original image
+    await storage.delete(imagePath);
+    logger.debug({ jobId, path: imagePath }, 'Deleted original image');
+  } catch (error) {
+    logger.warn(
+      { jobId, path: imagePath, error },
+      'Failed to delete original image during cleanup'
+    );
+  }
+
+  // Also try to delete any partial processed output
+  const possibleOutputExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+  for (const ext of possibleOutputExtensions) {
+    try {
+      const processedPath = `processed/${jobId}${ext}`;
+      if (await storage.exists(processedPath)) {
+        await storage.delete(processedPath);
+        logger.debug({ jobId, path: processedPath }, 'Deleted partial processed image');
+      }
+    } catch {
+      // Ignore errors for non-existent files
+    }
+  }
+}
 
 // ============================================
 // Redis Connection
@@ -105,6 +157,11 @@ async function processJob(
       code: ERROR_CODES.PROCESSING_FAILED,
       message: errorMessage,
     });
+
+    // Cleanup orphaned files on final failure
+    const attemptsMade = bullJob.attemptsMade + 1; // Current attempt
+    const maxAttempts = bullJob.opts.attempts || config_.jobs.maxRetries;
+    await cleanupOrphanedFiles(imagePath, jobId, attemptsMade, maxAttempts);
 
     return {
       success: false,

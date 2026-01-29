@@ -11,6 +11,7 @@ export type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface Job {
   id: string;
+  userId?: string; // Owner of the job (for authenticated users)
   status: JobStatus;
   progress: number; // 0-100
   createdAt: string;
@@ -151,4 +152,41 @@ export interface ProcessingJobResult {
   outputPath?: string;
   processingTimeMs: number;
   error?: string;
+}
+
+// ============================================
+// Auth Types
+// ============================================
+
+export interface User {
+  id: string;
+  email?: string;
+  name?: string;
+  avatarUrl?: string;
+  subscriptionTier: 'free' | 'premium' | 'pro';
+  createdAt: string;
+}
+
+export interface UserQuota {
+  used: number;
+  limit: number;
+  resetAt: string;
+}
+
+export interface AuthSession {
+  user: User;
+  accessToken: string;
+  refreshToken?: string;
+  expiresAt: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface SignupCredentials {
+  email: string;
+  password: string;
+  name?: string;
 }

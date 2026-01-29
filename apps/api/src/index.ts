@@ -23,9 +23,13 @@ import { performHealthCheck, livenessCheck, readinessCheck } from './lib/health'
 import { upload } from './routes/upload';
 import { jobs } from './routes/jobs';
 import { download } from './routes/download';
+import { auth } from './routes/auth';
 
 // Worker (import pour démarrer)
 import './workers/processor';
+
+// Cleanup service
+import { cleanupService } from './services/cleanup';
 
 // ============================================
 // App Setup
@@ -45,17 +49,33 @@ if (config_.isDev) {
   app.use('*', timing());
 }
 
-// CORS
+// CORS - Always use explicit origins (even in dev) for better security
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001',
+  ...(config_.isProd ? ['https://rebloom.app', 'https://www.rebloom.app'] : []),
+];
+
 app.use(
   '*',
   cors({
-    origin: config_.isDev 
-      ? '*' 
-      : ['http://localhost:3000', 'https://rebloom.app'],
+    origin: (origin) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return null;
+      // Check if origin is in allowed list
+      if (ALLOWED_ORIGINS.includes(origin)) return origin;
+      // In dev, also allow any localhost/127.0.0.1 origin
+      if (config_.isDev && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+        return origin;
+      }
+      return null;
+    },
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
     exposeHeaders: [
-      'Content-Length', 
+      'Content-Length',
       'Content-Disposition',
       'X-RateLimit-Limit',
       'X-RateLimit-Remaining',
@@ -150,6 +170,7 @@ app.get('/health/ready', async (c) => {
 });
 
 // API routes
+app.route('/api/auth', auth);
 app.route('/api/upload', upload);
 app.route('/api/jobs', jobs);
 app.route('/api/download', download);
@@ -229,6 +250,9 @@ const server = serve(
 ║                                               ║
 ╚═══════════════════════════════════════════════╝
     `);
+
+    // Start cleanup service
+    cleanupService.start();
   }
 );
 
@@ -238,6 +262,7 @@ const server = serve(
 
 async function shutdown() {
   logger.info('Shutting down server...');
+  cleanupService.stop();
   server.close();
   process.exit(0);
 }

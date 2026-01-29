@@ -1,7 +1,7 @@
 /**
  * Routes de téléchargement
- * GET /api/download/:id - Télécharger une image traitée
- * GET /api/files/* - Servir les fichiers statiques (dev)
+ * GET /api/download/:id - Télécharger une image traitée (with token validation)
+ * GET /api/files/* - Servir les fichiers statiques (dev only, with restrictions)
  */
 
 import { Hono } from 'hono';
@@ -10,7 +10,9 @@ import { jobManager } from '../services/queue';
 import { storage } from '../services/storage';
 import { apiLogger as logger } from '../lib/logger';
 import { jobIdSchema } from '../lib/validation';
-import { JobNotFoundError, AppError } from '../lib/errors';
+import { JobNotFoundError, AppError, UnauthorizedError } from '../lib/errors';
+import { validateDownloadToken } from '../lib/signed-urls';
+import { config_ } from '../lib/config';
 import { ERROR_CODES } from '@rebloom/shared';
 import mime from 'mime-types';
 
@@ -19,9 +21,29 @@ const download = new Hono();
 /**
  * GET /api/download/:id
  * Télécharge l'image traitée d'un job
+ * Requires valid token in production, optional in development
  */
 download.get('/:id', zValidator('param', jobIdSchema), async (c) => {
   const { id } = c.req.valid('param');
+  const token = c.req.query('token');
+
+  // Validate token in production mode
+  if (config_.isProd) {
+    if (!token) {
+      logger.warn({ jobId: id }, 'Download attempted without token');
+      throw new UnauthorizedError('Download token required');
+    }
+
+    if (!validateDownloadToken(token, id)) {
+      logger.warn({ jobId: id }, 'Download attempted with invalid token');
+      throw new UnauthorizedError('Invalid or expired download token');
+    }
+  } else if (token) {
+    // In dev mode, still validate token if provided (for testing)
+    if (!validateDownloadToken(token, id)) {
+      logger.debug({ jobId: id }, 'Invalid token in dev mode (allowing anyway)');
+    }
+  }
 
   const job = await jobManager.get(id);
   if (!job) {

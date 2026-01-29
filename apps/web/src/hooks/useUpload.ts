@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { uploadImage, pollJobStatus, getDownloadUrl, ApiError } from '@/lib/api';
+import { uploadImage, pollJobStatus, getSignedDownloadUrl, ApiError } from '@/lib/api';
 import type { Job, EnhanceOptions } from '@rebloom/shared';
 
 export type UploadState =
@@ -57,11 +57,14 @@ export function useUpload(): UseUploadResult {
         }
       );
 
+      // Get signed download URL
+      const downloadUrl = await getSignedDownloadUrl(completedJob.id);
+
       // Succès
       setState({
         status: 'completed',
         job: completedJob,
-        downloadUrl: getDownloadUrl(completedJob.id),
+        downloadUrl,
       });
     } catch (error) {
       const message =

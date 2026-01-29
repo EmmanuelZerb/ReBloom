@@ -1,6 +1,7 @@
 /**
  * Service de queue avec BullMQ
  * Gestion des jobs de traitement asynchrones
+ * Persistance des jobs dans Redis
  */
 
 import { Queue, Worker, Job as BullJob } from 'bullmq';
@@ -18,14 +19,25 @@ const connection = new Redis(config_.redis.url, {
   maxRetriesPerRequest: null, // Required for BullMQ
 });
 
-connection.on('connect', () => logger.info('Redis connected'));
-connection.on('error', (err) => logger.error({ err }, 'Redis error'));
+// Separate connection for job store operations
+const jobStoreRedis = new Redis(config_.redis.url, {
+  maxRetriesPerRequest: 3,
+  retryDelayOnFailover: 100,
+});
+
+connection.on('connect', () => logger.info('Redis (BullMQ) connected'));
+connection.on('error', (err) => logger.error({ err }, 'Redis (BullMQ) error'));
+
+jobStoreRedis.on('connect', () => logger.info('Redis (JobStore) connected'));
+jobStoreRedis.on('error', (err) => logger.error({ err }, 'Redis (JobStore) error'));
 
 // ============================================
 // Queue Definition
 // ============================================
 
 const QUEUE_NAME = 'image-processing';
+const JOB_STORE_PREFIX = 'rebloom:job:';
+const JOB_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
 
 export const processingQueue = new Queue<ProcessingJobData, ProcessingJobResult>(QUEUE_NAME, {
   connection,
@@ -46,15 +58,12 @@ export const processingQueue = new Queue<ProcessingJobData, ProcessingJobResult>
 });
 
 // ============================================
-// In-Memory Job Store (simple implementation)
-// En production, utiliser Redis ou une DB
+// Redis Job Store (persistent)
 // ============================================
-
-const jobStore = new Map<string, Job>();
 
 export const jobManager = {
   /**
-   * Crée un nouveau job
+   * Crée un nouveau job (persisté dans Redis)
    */
   async create(jobData: Omit<Job, 'status' | 'progress' | 'createdAt' | 'updatedAt'>): Promise<Job> {
     const now = new Date().toISOString();
@@ -66,16 +75,26 @@ export const jobManager = {
       updatedAt: now,
     };
 
-    jobStore.set(job.id, job);
-    logger.info({ jobId: job.id }, 'Job created');
+    const key = `${JOB_STORE_PREFIX}${job.id}`;
+    await jobStoreRedis.setex(key, JOB_TTL_SECONDS, JSON.stringify(job));
+    logger.info({ jobId: job.id }, 'Job created in Redis');
     return job;
   },
 
   /**
-   * Récupère un job par ID
+   * Récupère un job par ID depuis Redis
    */
   async get(jobId: string): Promise<Job | null> {
-    return jobStore.get(jobId) || null;
+    const key = `${JOB_STORE_PREFIX}${jobId}`;
+    const data = await jobStoreRedis.get(key);
+    if (!data) return null;
+
+    try {
+      return JSON.parse(data) as Job;
+    } catch (error) {
+      logger.error({ jobId, error }, 'Failed to parse job from Redis');
+      return null;
+    }
   },
 
   /**
@@ -87,7 +106,7 @@ export const jobManager = {
     progress?: number,
     extra?: Partial<Job>
   ): Promise<Job | null> {
-    const job = jobStore.get(jobId);
+    const job = await this.get(jobId);
     if (!job) return null;
 
     const updated: Job = {
@@ -99,8 +118,10 @@ export const jobManager = {
       ...(status === 'completed' && { completedAt: new Date().toISOString() }),
     };
 
-    jobStore.set(jobId, updated);
-    logger.info({ jobId, status, progress }, 'Job status updated');
+    const key = `${JOB_STORE_PREFIX}${jobId}`;
+    // Refresh TTL on update
+    await jobStoreRedis.setex(key, JOB_TTL_SECONDS, JSON.stringify(updated));
+    logger.info({ jobId, status, progress }, 'Job status updated in Redis');
     return updated;
   },
 
@@ -133,15 +154,46 @@ export const jobManager = {
    * Supprime un job
    */
   async delete(jobId: string): Promise<void> {
-    jobStore.delete(jobId);
-    logger.info({ jobId }, 'Job deleted');
+    const key = `${JOB_STORE_PREFIX}${jobId}`;
+    await jobStoreRedis.del(key);
+    logger.info({ jobId }, 'Job deleted from Redis');
   },
 
   /**
-   * Liste tous les jobs (pour debug)
+   * Liste tous les jobs (pour debug/admin)
    */
   async list(): Promise<Job[]> {
-    return Array.from(jobStore.values());
+    const keys = await jobStoreRedis.keys(`${JOB_STORE_PREFIX}*`);
+    if (keys.length === 0) return [];
+
+    const jobs: Job[] = [];
+    for (const key of keys) {
+      const data = await jobStoreRedis.get(key);
+      if (data) {
+        try {
+          jobs.push(JSON.parse(data) as Job);
+        } catch {
+          // Skip invalid entries
+        }
+      }
+    }
+    return jobs.sort((a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  },
+
+  /**
+   * Compte le nombre de jobs par statut
+   */
+  async countByStatus(): Promise<Record<JobStatus, number>> {
+    const jobs = await this.list();
+    return jobs.reduce(
+      (acc, job) => {
+        acc[job.status] = (acc[job.status] || 0) + 1;
+        return acc;
+      },
+      { pending: 0, processing: 0, completed: 0, failed: 0 } as Record<JobStatus, number>
+    );
   },
 };
 

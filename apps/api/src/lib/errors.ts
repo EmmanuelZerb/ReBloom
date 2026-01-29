@@ -82,6 +82,38 @@ export class ProviderError extends AppError {
   }
 }
 
+export class UnauthorizedError extends AppError {
+  constructor(message: string = 'Unauthorized', details?: Record<string, unknown>) {
+    super(ERROR_CODES.UNAUTHORIZED, message, 401, details);
+    this.name = 'UnauthorizedError';
+  }
+}
+
+export class WebhookSignatureError extends AppError {
+  constructor(details?: Record<string, unknown>) {
+    super(ERROR_CODES.UNAUTHORIZED, 'Invalid webhook signature', 401, details);
+    this.name = 'WebhookSignatureError';
+  }
+}
+
+export class ImageDimensionError extends AppError {
+  constructor(
+    width: number,
+    height: number,
+    minDim: number,
+    maxDim: number
+  ) {
+    const tooSmall = width < minDim || height < minDim;
+    const code = tooSmall ? ERROR_CODES.IMAGE_TOO_SMALL : ERROR_CODES.IMAGE_TOO_LARGE;
+    const message = tooSmall
+      ? `Image dimensions ${width}x${height} are too small. Minimum dimension is ${minDim}px.`
+      : `Image dimensions ${width}x${height} are too large. Maximum dimension is ${maxDim}px.`;
+
+    super(code, message, 400, { width, height, minDim, maxDim });
+    this.name = 'ImageDimensionError';
+  }
+}
+
 // Helpers
 
 function formatBytes(bytes: number): string {

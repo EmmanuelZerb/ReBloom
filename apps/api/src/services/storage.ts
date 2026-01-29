@@ -1,6 +1,7 @@
 /**
  * Service de stockage abstrait
  * Supporte local et S3-compatible
+ * Optimized Sharp configuration for memory efficiency
  */
 
 import fs from 'fs/promises';
@@ -11,6 +12,31 @@ import { config_ } from '../lib/config';
 import { storageLogger as logger } from '../lib/logger';
 import type { ImageInfo, ImageMimeType, OutputFormat } from '@rebloom/shared';
 import { MIME_TYPE_EXTENSIONS } from '@rebloom/shared';
+
+// ============================================
+// Sharp Configuration for Memory Efficiency
+// ============================================
+
+// Disable Sharp's built-in cache to reduce memory usage
+// The cache can consume a lot of memory when processing many images
+sharp.cache(false);
+
+// Limit concurrent operations to prevent memory spikes
+// Each Sharp operation can use significant memory for large images
+sharp.concurrency(1);
+
+// Configure Sharp's memory limits
+// This helps prevent OOM errors on large images
+sharp.simd(true); // Use SIMD for faster processing (less time = less memory in use)
+
+logger.info(
+  {
+    cache: false,
+    concurrency: 1,
+    simd: true,
+  },
+  'Sharp configured for memory efficiency'
+);
 
 // ============================================
 // Storage Interface
@@ -129,6 +155,7 @@ class StorageService {
 
   /**
    * Sauvegarde une image traitée
+   * Optimized for memory efficiency with sequential operations
    */
   async saveProcessed(
     buffer: Buffer,
@@ -139,26 +166,63 @@ class StorageService {
     const ext = `.${format}`;
     const filename = `processed/${id}${ext}`;
 
+    // Get metadata first, then release the buffer reference
+    const inputMetadata = await sharp(buffer, {
+      limitInputPixels: 268402689, // ~16384 x 16384 max
+      failOn: 'error',
+    }).metadata();
+
     // Convertir au format souhaité avec Sharp
+    // Using options to limit memory usage
     let processedBuffer: Buffer;
-    const sharpInstance = sharp(buffer);
+    const sharpInstance = sharp(buffer, {
+      limitInputPixels: 268402689,
+      failOn: 'error',
+    });
 
     switch (format) {
       case 'jpeg':
-        processedBuffer = await sharpInstance.jpeg({ quality: 95 }).toBuffer();
+        processedBuffer = await sharpInstance
+          .jpeg({
+            quality: 95,
+            mozjpeg: true, // Better compression
+          })
+          .toBuffer();
         break;
       case 'webp':
-        processedBuffer = await sharpInstance.webp({ quality: 95 }).toBuffer();
+        processedBuffer = await sharpInstance
+          .webp({
+            quality: 95,
+            effort: 4, // Balanced compression speed
+          })
+          .toBuffer();
         break;
       default:
-        processedBuffer = await sharpInstance.png().toBuffer();
+        processedBuffer = await sharpInstance
+          .png({
+            compressionLevel: 6, // Balanced compression
+          })
+          .toBuffer();
     }
 
-    const metadata = await sharp(processedBuffer).metadata();
+    // Get output metadata (reuse dimensions from input if processing didn't change them)
+    const outputWidth = inputMetadata.width || 0;
+    const outputHeight = inputMetadata.height || 0;
 
     await this.provider.save(processedBuffer, filename);
 
     const mimeType: ImageMimeType = `image/${format}` as ImageMimeType;
+
+    logger.debug(
+      {
+        id,
+        format,
+        inputSize: buffer.length,
+        outputSize: processedBuffer.length,
+        compressionRatio: (processedBuffer.length / buffer.length).toFixed(2),
+      },
+      'Image processed and saved'
+    );
 
     return {
       id,
@@ -166,8 +230,8 @@ class StorageService {
       originalName: `enhanced_${jobId}${ext}`,
       mimeType,
       size: processedBuffer.length,
-      width: metadata.width || 0,
-      height: metadata.height || 0,
+      width: outputWidth,
+      height: outputHeight,
       url: this.provider.getUrl(filename),
     };
   }

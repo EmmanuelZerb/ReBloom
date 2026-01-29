@@ -1,33 +1,39 @@
 /**
  * Route d'upload d'images
  * POST /api/upload
- * 
+ *
  * Sécurisé avec:
  * - Rate limiting strict
  * - Validation de type MIME (magic bytes)
  * - Sanitization des noms de fichiers
  * - Validation de taille
+ * - Validation des dimensions d'image
  */
 
 import { Hono } from 'hono';
 import { nanoid } from 'nanoid';
+import sharp from 'sharp';
 import { storage } from '../services/storage';
 import { jobManager } from '../services/queue';
 import { apiLogger as logger } from '../lib/logger';
-import { uploadOptionsSchema, validateImageMimeType, validateImageSize, validateImageMagicBytes, sanitizeFilename } from '../lib/validation';
-import { FileTooLargeError, InvalidFileTypeError, ValidationError } from '../lib/errors';
+import { uploadOptionsSchema, validateImageMimeType, validateImageSize, validateImageMagicBytes, validateImageDimensions, sanitizeFilename } from '../lib/validation';
+import { FileTooLargeError, InvalidFileTypeError, ValidationError, ImageDimensionError } from '../lib/errors';
 import { UPLOAD_CONFIG, DEFAULT_MODEL, JOB_CONFIG } from '@rebloom/shared';
 import { uploadRateLimit } from '../lib/rate-limit';
+import { requireAuth, checkQuota, recordUsage } from '../lib/auth';
 import type { ImageMimeType, UploadResponse, EnhanceOptions } from '@rebloom/shared';
 
 const upload = new Hono();
 
-// Apply strict rate limiting to uploads
+// Apply authentication, quota check, and rate limiting to uploads
+upload.use('/', requireAuth());
+upload.use('/', checkQuota());
 upload.use('/', uploadRateLimit);
 
 upload.post('/', async (c) => {
   const startTime = Date.now();
   const requestId = c.get('requestId') || 'unknown';
+  const userId = c.get('userId');
 
   try {
     // Parser le body multipart
@@ -78,6 +84,30 @@ upload.post('/', async (c) => {
     // Utiliser le type détecté (plus sûr que le type déclaré)
     const actualMimeType = magicBytesResult.detectedType as ImageMimeType;
 
+    // Valider les dimensions de l'image avec Sharp
+    const metadata = await sharp(buffer).metadata();
+    if (!metadata.width || !metadata.height) {
+      throw new ValidationError('Could not read image dimensions. The file may be corrupted.');
+    }
+
+    if (!validateImageDimensions(metadata.width, metadata.height)) {
+      logger.warn(
+        { requestId, width: metadata.width, height: metadata.height },
+        'Invalid image dimensions'
+      );
+      throw new ImageDimensionError(
+        metadata.width,
+        metadata.height,
+        UPLOAD_CONFIG.minDimension,
+        UPLOAD_CONFIG.maxDimension
+      );
+    }
+
+    logger.debug(
+      { requestId, width: metadata.width, height: metadata.height },
+      'Image dimensions validated'
+    );
+
     // Parser les options
     let enhanceOptions: EnhanceOptions = {
       scaleFactor: 4,
@@ -106,10 +136,11 @@ upload.post('/', async (c) => {
       actualMimeType
     );
 
-    // Créer le job
+    // Créer le job avec l'userId
     const jobId = nanoid(16);
     const job = await jobManager.create({
       id: jobId,
+      userId, // Associate job with user
       originalImage: imageInfo,
       metadata: {
         modelUsed: DEFAULT_MODEL.name,
@@ -127,7 +158,12 @@ upload.post('/', async (c) => {
     });
 
     const processingTime = Date.now() - startTime;
-    logger.info({ jobId, processingTime }, 'Upload processed successfully');
+    logger.info({ jobId, userId, processingTime }, 'Upload processed successfully');
+
+    // Record usage for quota tracking
+    if (userId) {
+      await recordUsage(userId);
+    }
 
     // Estimer le temps de traitement (basé sur la taille de l'image)
     const estimatedSeconds = Math.max(10, Math.ceil(imageInfo.width * imageInfo.height / 500000));

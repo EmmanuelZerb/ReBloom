@@ -19,6 +19,12 @@ const envSchema = z.object({
   // Redis
   REDIS_URL: z.string().default('redis://localhost:6379'),
 
+  // Supabase
+  SUPABASE_URL: z.string().url('SUPABASE_URL must be a valid URL'),
+  SUPABASE_ANON_KEY: z.string().min(1, 'SUPABASE_ANON_KEY is required'),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
+  SUPABASE_JWT_SECRET: z.string().min(1, 'SUPABASE_JWT_SECRET is required'),
+
   // Replicate
   REPLICATE_API_TOKEN: z.string().min(1, 'REPLICATE_API_TOKEN is required'),
 
@@ -48,6 +54,9 @@ const envSchema = z.object({
   CUSTOM_MODEL_ENABLED: z.coerce.boolean().default(false),
   CUSTOM_MODEL_PATH: z.string().optional(),
   CUSTOM_MODEL_PROVIDER: z.enum(['replicate', 'huggingface', 'local']).default('replicate'),
+
+  // Auth settings
+  AUTH_REQUIRED: z.coerce.boolean().default(true),
 });
 
 function loadConfig() {
@@ -75,6 +84,17 @@ export const config_ = {
 
   redis: {
     url: env.REDIS_URL,
+  },
+
+  supabase: {
+    url: env.SUPABASE_URL,
+    anonKey: env.SUPABASE_ANON_KEY,
+    serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
+    jwtSecret: env.SUPABASE_JWT_SECRET,
+  },
+
+  auth: {
+    required: env.AUTH_REQUIRED,
   },
 
   replicate: {
