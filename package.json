@@ -1,0 +1,27 @@
+{
+  "name": "rebloom",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "clean": "turbo clean && rm -rf node_modules",
+    "api:dev": "npm run dev --workspace=@rebloom/api",
+    "web:dev": "npm run dev --workspace=@rebloom/web",
+    "db:setup": "docker-compose up -d redis"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@10.9.0"
+}

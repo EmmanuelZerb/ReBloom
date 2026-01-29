@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Redis for BullMQ job queue
+  redis:
+    image: redis:7-alpine
+    container_name: rebloom-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Commander (optional - UI for debugging)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: rebloom-redis-ui
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    profiles:
+      - debug
+
+  # MinIO S3-compatible storage (optional - for local S3 testing)
+  minio:
+    image: minio/minio:latest
+    container_name: rebloom-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    profiles:
+      - s3
+
+volumes:
+  redis_data:
+  minio_data:

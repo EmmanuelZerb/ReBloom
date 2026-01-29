@@ -1,0 +1,196 @@
+# ReBloom Training Configuration
+# ===============================
+# Configuration pour fine-tuner Real-ESRGAN
+#
+# Guide des hyperparamètres:
+# - batch_size: Réduire si VRAM insuffisante (4-8 pour 8GB, 8-16 pour 16GB+)
+# - lr: Learning rate, réduire pour fine-tuning (1e-4 à 5e-5)
+# - total_iter: Nombre total d'itérations (100k-300k selon dataset)
+
+# Nom de l'expérience
+name: rebloom_finetune_v1
+model_type: RealESRGANModel
+scale: 4  # Facteur d'upscaling (2 ou 4)
+num_gpu: auto  # 'auto' détecte automatiquement
+
+# ==========================================
+# Dataset Configuration
+# ==========================================
+datasets:
+  train:
+    name: ReBloomTrain
+    type: PairedImageDataset
+
+    # Chemins des données
+    dataroot_gt: ./datasets/train/sharp    # Images nettes (ground truth)
+    dataroot_lq: ./datasets/train/blur     # Images floues (input)
+
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+    # Taille des patches pour l'entraînement
+    # Plus grand = meilleur contexte mais plus de VRAM
+    gt_size: 256
+
+    # Data augmentation
+    use_hflip: true      # Flip horizontal
+    use_rot: true        # Rotations 90°
+
+    # Dataloader
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 8  # Réduire si OOM
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: ReBloomVal
+    type: PairedImageDataset
+
+    dataroot_gt: ./datasets/val/sharp
+    dataroot_lq: ./datasets/val/blur
+
+    io_backend:
+      type: disk
+
+# ==========================================
+# Network Architecture
+# ==========================================
+network_g:
+  type: RRDBNet
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 23      # Nombre de blocs RRDB
+  num_grow_ch: 32
+  scale: 4
+
+# Discriminator (pour GAN training)
+network_d:
+  type: UNetDiscriminatorSN
+  num_in_ch: 3
+  num_feat: 64
+  skip_connection: true
+
+# ==========================================
+# Pretrained Model
+# ==========================================
+path:
+  # Télécharger depuis:
+  # https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth
+  pretrain_network_g: ./pretrained_models/RealESRGAN_x4plus.pth
+  pretrain_network_d: ~  # Optionnel
+  strict_load_g: false   # false permet de charger des poids partiels
+  resume_state: ~        # Chemin vers le state pour reprendre
+
+# ==========================================
+# Training Settings
+# ==========================================
+train:
+  # EMA (Exponential Moving Average)
+  ema_decay: 0.999
+
+  # Optimizer Generator
+  optim_g:
+    type: Adam
+    lr: !!float 1e-4      # Learning rate (réduire pour fine-tuning)
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  # Optimizer Discriminator
+  optim_d:
+    type: Adam
+    lr: !!float 1e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  # Learning rate scheduler
+  scheduler:
+    type: MultiStepLR
+    milestones: [50000, 100000, 150000, 200000]
+    gamma: 0.5
+
+  # Iterations
+  total_iter: 200000      # Total d'itérations
+  warmup_iter: -1         # Warmup (-1 = désactivé)
+
+  # ----------------------------------------
+  # Losses
+  # ----------------------------------------
+
+  # L1 Pixel Loss (reconstruction basique)
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+
+  # Perceptual Loss (features VGG19)
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      # Couches VGG19 à utiliser
+      'conv1_2': 0.1
+      'conv2_2': 0.1
+      'conv3_4': 1
+      'conv4_4': 1
+      'conv5_4': 1
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: 1.0
+    style_weight: 0        # Style loss (optionnel)
+    range_norm: false
+    criterion: l1
+
+  # GAN Loss
+  gan_opt:
+    type: GANLoss
+    gan_type: vanilla
+    real_label_val: 1.0
+    fake_label_val: 0.0
+    loss_weight: !!float 1e-1
+
+  # Ratio d'entraînement D/G
+  net_d_iters: 1
+  net_d_init_iters: 0
+
+# ==========================================
+# Validation Settings
+# ==========================================
+val:
+  val_freq: !!float 5000    # Validation tous les N itérations
+  save_img: true            # Sauvegarder les images de validation
+
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 4
+      test_y_channel: true
+
+    ssim:
+      type: calculate_ssim
+      crop_border: 4
+      test_y_channel: true
+
+# ==========================================
+# Logging
+# ==========================================
+logger:
+  print_freq: 100                    # Log console
+  save_checkpoint_freq: !!float 5000 # Sauvegarder checkpoint
+  use_tb_logger: true                # TensorBoard
+
+  wandb:
+    project: rebloom
+    resume_id: ~
+
+# ==========================================
+# Distributed Training
+# ==========================================
+dist_params:
+  backend: nccl
+  port: 29500
+
+# ==========================================
+# Divers
+# ==========================================
+find_unused_parameters: true

@@ -1,0 +1,37 @@
+{
+  "name": "@rebloom/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/index.ts --format esm --dts",
+    "start": "node dist/index.js",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "worker": "tsx src/workers/processor.ts"
+  },
+  "dependencies": {
+    "@rebloom/shared": "*",
+    "hono": "^4.6.0",
+    "@hono/node-server": "^1.13.0",
+    "@hono/zod-validator": "^0.4.0",
+    "bullmq": "^5.25.0",
+    "ioredis": "^5.4.0",
+    "zod": "^3.23.0",
+    "nanoid": "^5.0.0",
+    "sharp": "^0.33.0",
+    "replicate": "^1.0.0",
+    "dotenv": "^16.4.0",
+    "pino": "^9.5.0",
+    "pino-pretty": "^13.0.0",
+    "mime-types": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/mime-types": "^2.1.0",
+    "tsx": "^4.19.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0"
+  }
+}

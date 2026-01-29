@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# Cache
+.turbo
+.cache
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Uploads & Storage
+uploads/
+*.tmp
+
+# Training artifacts
+training/datasets/raw/*
+training/datasets/processed/*
+training/checkpoints/*
+!training/datasets/raw/.gitkeep
+!training/datasets/processed/sharp/.gitkeep
+!training/datasets/processed/blur/.gitkeep
+!training/checkpoints/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+*.egg-info/
+
+# Testing
+coverage/
+.nyc_output/
+
+# OS
+Thumbs.db

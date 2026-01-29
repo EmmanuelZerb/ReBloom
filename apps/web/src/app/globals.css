@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Luminous warm palette - bright but organic */
+    --color-cream: 255 253 250;
+    --color-blush: 255 247 243;
+    --color-peach: 255 183 148;
+    --color-coral: 255 127 102;
+    --color-sage: 134 176 155;
+    --color-sky: 186 220 255;
+    
+    /* Animation timing - organic, not mechanical */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    @apply border-stone-200/80;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-outfit), system-ui, sans-serif;
+    background-color: #FFFFFF !important;
+    color: #44403c;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-[#FF7F66]/20 text-stone-900;
+  }
+
+  *:focus {
+    transition: outline-offset 0.1s ease;
+  }
+}
+
+@layer components {
+  /* Clean card - luminous white */
+  .card {
+    @apply bg-white rounded-2xl border border-stone-100;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.02);
+  }
+
+  .card-crystal {
+    @apply card p-8;
+  }
+
+  .card:hover {
+    @apply border-stone-200;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  /* Vibrant coral accent */
+  .text-prism,
+  .text-prism-static,
+  .text-gradient {
+    color: #FF7F66;
+  }
+
+  /* Primary button - coral, friendly */
+  .btn-prism {
+    @apply px-7 py-3.5 font-medium text-white;
+    @apply rounded-full transition-all duration-200;
+    background: linear-gradient(135deg, #FF7F66 0%, #FF9B85 100%);
+    box-shadow: 0 2px 8px rgba(255, 127, 102, 0.25);
+  }
+
+  .btn-prism:hover {
+    box-shadow: 0 4px 16px rgba(255, 127, 102, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-prism:active {
+    transform: translateY(0);
+  }
+
+  .btn-prism:disabled {
+    @apply opacity-40 cursor-not-allowed;
+    transform: none !important;
+  }
+
+  .btn-prism span {
+    @apply relative z-10;
+  }
+
+  .btn-primary {
+    @apply btn-prism;
+  }
+
+  /* Ghost button - light and airy */
+  .btn-ghost {
+    @apply px-5 py-2.5 font-medium text-stone-500;
+    @apply rounded-full border border-stone-200/80;
+    @apply hover:border-stone-300 hover:text-stone-700 hover:bg-white;
+    @apply transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply btn-ghost;
+  }
+
+  /* Pill / Tag - soft pastel */
+  .pill {
+    @apply inline-flex items-center gap-2 px-3 py-1.5;
+    @apply text-sm font-medium text-stone-500;
+    @apply rounded-full bg-stone-50;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full px-4 py-3 bg-white rounded-xl;
+    @apply border border-stone-200/80;
+    @apply focus:outline-none focus:border-[#FF7F66]/50 focus:ring-2 focus:ring-[#FF7F66]/10;
+    @apply placeholder:text-stone-300 transition-all duration-200;
+  }
+
+  /* Mono text */
+  .font-mono {
+    font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  }
+
+  /* Subtle divider */
+  .divider {
+    @apply h-px bg-stone-100;
+  }
+
+  /* Soft shadow utilities */
+  .shadow-soft {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02);
+  }
+
+  .shadow-medium {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  .shadow-lifted {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.06);
+  }
+}
+
+@layer utilities {
+  /* Stagger animations - subtle */
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+
+  /* Coral accent color - luminous */
+  .text-coral { color: #FF7F66; }
+  .bg-coral { background-color: #FF7F66; }
+  .border-coral { border-color: #FF7F66; }
+
+  /* Soft sage for success states */
+  .text-sage { color: #86B09B; }
+  .bg-sage { background-color: #86B09B; }
+  .border-sage { border-color: #86B09B; }
+
+  /* Legacy terracotta support */
+  .text-terracotta { color: #FF7F66; }
+  .bg-terracotta { background-color: #FF7F66; }
+  .border-terracotta { border-color: #FF7F66; }
+}
+
+/* Simple, elegant keyframes */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(16px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Progress bar animation */
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Minimal scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Clean focus styles */
+:focus-visible {
+  outline: 2px solid #1c1917;
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fade-in 0.4s var(--ease-smooth) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s var(--ease-out-expo) forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.04), transparent);
+  background-size: 200% 100%;
+}

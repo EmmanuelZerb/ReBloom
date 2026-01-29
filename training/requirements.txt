@@ -1,0 +1,38 @@
+# ReBloom Training Requirements
+# =============================
+# Install with: pip install -r requirements.txt
+#
+# Note: Install PyTorch with CUDA first:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+
+# Core ML
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Real-ESRGAN & BasicSR
+basicsr>=1.4.2
+realesrgan>=0.3.0
+
+# Image processing
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0
+
+# Training utilities
+tqdm>=4.65.0
+tensorboard>=2.14.0
+wandb>=0.15.0  # Optional, for experiment tracking
+
+# Metrics
+lpips>=0.1.4
+scikit-image>=0.21.0
+
+# Distributed training
+accelerate>=0.24.0
+
+# Utilities
+pyyaml>=6.0.0
+addict>=2.4.0
+future>=0.18.3
+lmdb>=1.4.0
+yapf>=0.40.0
