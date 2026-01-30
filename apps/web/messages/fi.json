@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Ladataan...",
+    "error": "Tapahtui virhe",
+    "tryAgain": "Yritä uudelleen",
+    "cancel": "Peruuta",
+    "save": "Tallenna",
+    "close": "Sulje"
+  },
+  "nav": {
+    "howItWorks": "Näin se toimii",
+    "github": "GitHub",
+    "signIn": "Kirjaudu sisään",
+    "signOut": "Kirjaudu ulos",
+    "settings": "Asetukset",
+    "skipToContent": "Siirry pääsisältöön"
+  },
+  "home": {
+    "badge": "Tekoälykuvanparannus",
+    "title": "Tee sumeista kuvista",
+    "titleHighlight": "taas teräviä",
+    "subtitle": "Lataa mikä tahansa kuva ja katso sen muuttuminen. 4x suurennus, yksityiskohtien palautus, ei vesileimoja. Kuvasi pysyvät yksityisinä.",
+    "features": {
+      "free": "Ilmainen",
+      "upscaling": "4x suurennus",
+      "private": "Yksityinen"
+    },
+    "howItWorks": {
+      "title": "Näin se toimii",
+      "subtitle": "Kolme helppoa vaihetta. Tiliä ei tarvita.",
+      "step1": {
+        "title": "Lataa",
+        "desc": "Vedä kuvasi tai klikkaa selataksesi. Hyväksymme PNG-, JPG- ja WebP-tiedostot."
+      },
+      "step2": {
+        "title": "Käsittely",
+        "desc": "Tekoälymme analysoi ja parantaa jokaisen yksityiskohdan. Kestää noin 10-15 sekuntia."
+      },
+      "step3": {
+        "title": "Lataa",
+        "desc": "Saat parannetun kuvasi 4x resoluutiolla. Ei vesileimoja, ei ansoja."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Pudota kuvasi tähän",
+    "dropToUpload": "Pudota ladataksesi",
+    "fileNotSupported": "Tiedostoa ei tueta",
+    "browseFiles": "tai <link>selaa tiedostoja</link>",
+    "formats": "Maks {size}MB",
+    "enhance": "Paranna kuvaa",
+    "remove": "Poista kuva",
+    "uploading": "Ladataan kuvaasi...",
+    "processing": "Käsitellään...",
+    "supportedFormats": "Tuetut muodot: PNG, JPG, WebP. Maksimikoko: {size}MB"
+  },
+  "result": {
+    "ready": "Valmis ladattavaksi",
+    "download": "Lataa",
+    "newImage": "Uusi kuva",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Jokin meni pieleen",
+    "unexpected": "Odottamaton virhe tapahtui",
+    "fileTooLarge": "Tiedosto on liian suuri",
+    "fileNotSupported": "Tiedostoa ei tueta",
+    "uploadFailed": "Lataus epäonnistui",
+    "processingFailed": "Käsittely epäonnistui"
+  },
+  "auth": {
+    "welcomeBack": "Tervetuloa takaisin",
+    "signInSubtitle": "Kirjaudu sisään jatkaaksesi kuviesi parantamista",
+    "createAccount": "Luo tilisi",
+    "signUpSubtitle": "Aloita kuviesi parantaminen tänään",
+    "email": "Sähköposti",
+    "emailPlaceholder": "sina@esimerkki.fi",
+    "password": "Salasana",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Vahvista salasana",
+    "passwordHint": "Vähintään 8 merkkiä",
+    "signIn": "Kirjaudu sisään",
+    "signingIn": "Kirjaudutaan...",
+    "signUp": "Rekisteröidy",
+    "creatingAccount": "Luodaan tiliä...",
+    "createAccountBtn": "Luo tili",
+    "orContinueWith": "tai jatka",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Ei tiliä?",
+    "hasAccount": "Onko sinulla jo tili?",
+    "termsNotice": "Rekisteröitymällä hyväksyt Käyttöehdot ja Tietosuojakäytännön.",
+    "checkEmail": "Tarkista sähköpostisi",
+    "confirmationSent": "Lähetimme vahvistuslinkin osoitteeseen <strong>{email}</strong>",
+    "clickToComplete": "Klikkaa sähköpostissa olevaa linkkiä viimeistelläksesi rekisteröinnin.",
+    "errors": {
+      "signInFailed": "Kirjautuminen epäonnistui",
+      "signUpFailed": "Rekisteröinti epäonnistui",
+      "googleFailed": "Google-kirjautuminen epäonnistui",
+      "githubFailed": "GitHub-kirjautuminen epäonnistui",
+      "passwordMismatch": "Salasanat eivät täsmää",
+      "passwordTooShort": "Salasanassa on oltava vähintään 8 merkkiä"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Tehty huolella"
+  },
+  "language": {
+    "select": "Valitse kieli",
+    "current": "Nykyinen kieli"
+  }
+}

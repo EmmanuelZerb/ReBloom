@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Carregando...",
+    "error": "Ocorreu um erro",
+    "tryAgain": "Tentar novamente",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "close": "Fechar"
+  },
+  "nav": {
+    "howItWorks": "Como funciona",
+    "github": "GitHub",
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "settings": "Configurações",
+    "skipToContent": "Ir para o conteúdo principal"
+  },
+  "home": {
+    "badge": "Melhoria de imagens com IA",
+    "title": "Torne fotos borradas",
+    "titleHighlight": "nítidas novamente",
+    "subtitle": "Carregue qualquer foto e veja a transformação. Ampliação 4x, restauração de detalhes, sem marca d'água. Suas imagens permanecem privadas.",
+    "features": {
+      "free": "Grátis",
+      "upscaling": "Ampliação 4x",
+      "private": "Privado"
+    },
+    "howItWorks": {
+      "title": "Como funciona",
+      "subtitle": "Três passos simples. Sem necessidade de conta.",
+      "step1": {
+        "title": "Carregar",
+        "desc": "Arraste sua imagem ou clique para procurar. Aceitamos PNG, JPG e WebP."
+      },
+      "step2": {
+        "title": "Processar",
+        "desc": "Nossa IA analisa e melhora cada detalhe. Leva cerca de 10-15 segundos."
+      },
+      "step3": {
+        "title": "Baixar",
+        "desc": "Obtenha sua imagem melhorada em resolução 4x. Sem marca d'água, sem pegadinhas."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Solte sua imagem aqui",
+    "dropToUpload": "Solte para carregar",
+    "fileNotSupported": "Arquivo não suportado",
+    "browseFiles": "ou <link>procurar arquivos</link>",
+    "formats": "Máx {size}MB",
+    "enhance": "Melhorar imagem",
+    "remove": "Remover imagem",
+    "uploading": "Carregando sua imagem...",
+    "processing": "Processando...",
+    "supportedFormats": "Formatos suportados: PNG, JPG, WebP. Tamanho máximo: {size}MB"
+  },
+  "result": {
+    "ready": "Pronto para baixar",
+    "download": "Baixar",
+    "newImage": "Nova imagem",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Algo deu errado",
+    "unexpected": "Ocorreu um erro inesperado",
+    "fileTooLarge": "Arquivo muito grande",
+    "fileNotSupported": "Arquivo não suportado",
+    "uploadFailed": "Falha no carregamento",
+    "processingFailed": "Falha no processamento"
+  },
+  "auth": {
+    "welcomeBack": "Bem-vindo de volta",
+    "signInSubtitle": "Entre para continuar melhorando suas imagens",
+    "createAccount": "Criar sua conta",
+    "signUpSubtitle": "Comece a melhorar suas imagens hoje",
+    "email": "Email",
+    "emailPlaceholder": "voce@exemplo.com",
+    "password": "Senha",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmar senha",
+    "passwordHint": "Pelo menos 8 caracteres",
+    "signIn": "Entrar",
+    "signingIn": "Entrando...",
+    "signUp": "Cadastrar",
+    "creatingAccount": "Criando conta...",
+    "createAccountBtn": "Criar conta",
+    "orContinueWith": "ou continuar com",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Não tem uma conta?",
+    "hasAccount": "Já tem uma conta?",
+    "termsNotice": "Ao se cadastrar, você concorda com nossos Termos de Serviço e Política de Privacidade.",
+    "checkEmail": "Verifique seu email",
+    "confirmationSent": "Enviamos um link de confirmação para <strong>{email}</strong>",
+    "clickToComplete": "Clique no link em seu email para completar o cadastro.",
+    "errors": {
+      "signInFailed": "Falha ao entrar",
+      "signUpFailed": "Falha ao cadastrar",
+      "googleFailed": "Falha ao entrar com Google",
+      "githubFailed": "Falha ao entrar com GitHub",
+      "passwordMismatch": "As senhas não coincidem",
+      "passwordTooShort": "A senha deve ter pelo menos 8 caracteres"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Feito com carinho"
+  },
+  "language": {
+    "select": "Selecionar idioma",
+    "current": "Idioma atual"
+  }
+}

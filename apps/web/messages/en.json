@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "tryAgain": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close"
+  },
+  "nav": {
+    "howItWorks": "How it works",
+    "github": "GitHub",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "settings": "Settings",
+    "skipToContent": "Skip to main content"
+  },
+  "home": {
+    "badge": "AI Image Enhancement",
+    "title": "Make blurry photos",
+    "titleHighlight": "sharp again",
+    "subtitle": "Upload any photo and watch it transform. 4x upscaling, detail restoration, no watermarks. Your images stay private.",
+    "features": {
+      "free": "Free to use",
+      "upscaling": "4x upscaling",
+      "private": "Private"
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Three simple steps. No account needed.",
+      "step1": {
+        "title": "Upload",
+        "desc": "Drop your image or click to browse. We accept PNG, JPG, and WebP."
+      },
+      "step2": {
+        "title": "Process",
+        "desc": "Our AI analyzes and enhances every detail. Takes about 10-15 seconds."
+      },
+      "step3": {
+        "title": "Download",
+        "desc": "Get your enhanced image at 4x resolution. No watermarks, no catches."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Drop your image here",
+    "dropToUpload": "Drop to upload",
+    "fileNotSupported": "File not supported",
+    "browseFiles": "or <link>browse files</link>",
+    "formats": "Max {size}MB",
+    "enhance": "Enhance image",
+    "remove": "Remove image",
+    "uploading": "Uploading your image...",
+    "processing": "Processing...",
+    "supportedFormats": "Supported formats: PNG, JPG, WebP. Maximum file size: {size}MB"
+  },
+  "result": {
+    "ready": "Ready to download",
+    "download": "Download",
+    "newImage": "New image",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "unexpected": "An unexpected error occurred",
+    "fileTooLarge": "File too large",
+    "fileNotSupported": "File not supported",
+    "uploadFailed": "Upload failed",
+    "processingFailed": "Processing failed"
+  },
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "signInSubtitle": "Sign in to continue enhancing your images",
+    "createAccount": "Create your account",
+    "signUpSubtitle": "Start enhancing your images today",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirm Password",
+    "passwordHint": "At least 8 characters",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "signUp": "Sign up",
+    "creatingAccount": "Creating account...",
+    "createAccountBtn": "Create account",
+    "orContinueWith": "or continue with",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "termsNotice": "By signing up, you agree to our Terms of Service and Privacy Policy.",
+    "checkEmail": "Check your email",
+    "confirmationSent": "We've sent a confirmation link to <strong>{email}</strong>",
+    "clickToComplete": "Click the link in your email to complete your registration.",
+    "errors": {
+      "signInFailed": "Failed to sign in",
+      "signUpFailed": "Failed to sign up",
+      "googleFailed": "Failed to sign in with Google",
+      "githubFailed": "Failed to sign in with GitHub",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 8 characters"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Made with care"
+  },
+  "language": {
+    "select": "Select language",
+    "current": "Current language"
+  }
+}

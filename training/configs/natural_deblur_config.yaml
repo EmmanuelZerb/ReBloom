@@ -1,0 +1,163 @@
+# ReBloom - Configuration pour Rendu NATUREL
+# ==========================================
+#
+# OBJECTIF: Résultat naturel sans artefacts IA
+#
+# Différences clés avec la config standard:
+# - PAS de GAN loss (cause #1 du look IA)
+# - Perceptual loss réduite (moins d'hallucinations)
+# - L1 loss dominante (fidélité pixel)
+# - Learning rate conservateur
+
+name: rebloom_natural_v1
+model_type: SRModel  # PAS RealESRGANModel (pas de GAN)
+scale: 1  # 1 = deblurring sans upscaling (plus naturel)
+num_gpu: auto
+
+# ==========================================
+# Dataset Configuration
+# ==========================================
+datasets:
+  train:
+    name: ReBloomNatural
+    type: PairedImageDataset
+
+    dataroot_gt: ./datasets/processed/sharp
+    dataroot_lq: ./datasets/processed/blur
+
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+    # Patch size - 256 est bon pour le deblurring
+    gt_size: 256
+
+    # Augmentation légère pour garder le naturel
+    use_hflip: true
+    use_rot: true
+
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 8
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: ReBloomNaturalVal
+    type: PairedImageDataset
+    dataroot_gt: ./datasets/validation/sharp
+    dataroot_lq: ./datasets/validation/blur
+    io_backend:
+      type: disk
+
+# ==========================================
+# Network - NAFNet (Meilleur pour naturel)
+# ==========================================
+network_g:
+  type: NAFNet
+  width: 64
+  enc_blk_nums: [2, 2, 4, 8]
+  middle_blk_num: 12
+  dec_blk_nums: [2, 2, 2, 2]
+
+# PAS DE DISCRIMINATEUR = pas de GAN = pas de look IA
+
+# ==========================================
+# Pretrained Model
+# ==========================================
+path:
+  # NAFNet pré-entraîné sur GoPro (motion deblurring)
+  pretrain_network_g: ./pretrained_models/NAFNet-GoPro-width64.pth
+  strict_load_g: true
+  resume_state: ~
+
+# ==========================================
+# Training Settings - OPTIMISÉ NATUREL
+# ==========================================
+train:
+  ema_decay: 0.999
+
+  optim_g:
+    type: AdamW
+    lr: !!float 1e-4
+    weight_decay: !!float 1e-4
+    betas: [0.9, 0.9]
+
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [50000, 50000, 50000, 50000]
+    restart_weights: [1, 0.5, 0.5, 0.5]
+    eta_min: !!float 1e-7
+
+  total_iter: 200000
+  warmup_iter: 1000
+
+  # ========================================
+  # LOSSES - Configuration NATURELLE
+  # ========================================
+
+  # L1 Loss DOMINANTE - fidélité aux pixels originaux
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+
+  # Perceptual Loss LÉGÈRE - juste pour cohérence visuelle
+  # Poids réduit = moins d'hallucinations
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      'conv3_4': 0.25  # Réduit (était 1.0)
+      'conv4_4': 0.25  # Réduit (était 1.0)
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: 0.1  # TRÈS RÉDUIT (standard = 1.0)
+    style_weight: 0
+    range_norm: false
+    criterion: l1
+
+  # PAS DE GAN LOSS = pas de détails inventés
+
+  # PSNR Loss (optionnel, aide à la convergence)
+  # psnr_opt:
+  #   type: PSNRLoss
+  #   loss_weight: 0.1
+
+# ==========================================
+# Validation
+# ==========================================
+val:
+  val_freq: !!float 5000
+  save_img: true
+
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false  # RGB complet
+
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+
+    # LPIPS - mesure la perception (plus bas = mieux)
+    lpips:
+      type: calculate_lpips
+      net: alex
+
+# ==========================================
+# Logging
+# ==========================================
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5000
+  use_tb_logger: true
+  wandb:
+    project: rebloom-natural
+    resume_id: ~
+
+dist_params:
+  backend: nccl
+  port: 29500
+
+find_unused_parameters: false

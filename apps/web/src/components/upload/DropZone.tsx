@@ -4,6 +4,7 @@ import { useCallback, useState, useId } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, X, ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn, formatBytes } from '@/lib/utils';
 import { UPLOAD_CONFIG } from '@rebloom/shared';
 
@@ -14,16 +15,16 @@ interface DropZoneProps {
   'aria-label'?: string;
 }
 
-export function DropZone({ 
-  onFileSelect, 
-  disabled, 
+export function DropZone({
+  onFileSelect,
+  disabled,
   className,
-  'aria-label': ariaLabel = 'Upload image for enhancement'
 }: DropZoneProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const dropzoneId = useId();
   const descriptionId = useId();
+  const t = useTranslations('upload');
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -59,6 +60,8 @@ export function DropZone({
     disabled,
   });
 
+  const maxSizeMB = UPLOAD_CONFIG.maxSizeBytes / 1024 / 1024;
+
   return (
     <div className={cn('w-full max-w-2xl mx-auto', className)}>
       <AnimatePresence mode="wait">
@@ -79,13 +82,13 @@ export function DropZone({
                   alt="Preview"
                   className="w-full h-full object-contain"
                 />
-                
+
                 {/* Clear button */}
                 <button
                   onClick={handleClear}
                   className="absolute top-3 right-3 p-2 rounded-full bg-white shadow-soft
                            hover:bg-stone-50 transition-colors"
-                  aria-label="Remove image"
+                  aria-label={t('remove')}
                 >
                   <X className="w-4 h-4 text-stone-600" />
                 </button>
@@ -110,7 +113,7 @@ export function DropZone({
               className="btn-prism w-full flex items-center justify-center gap-2 group"
               whileTap={{ scale: 0.98 }}
             >
-              <span>Enhance image</span>
+              <span>{t('enhance')}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </motion.button>
           </motion.div>
@@ -120,39 +123,41 @@ export function DropZone({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            {...getRootProps()}
-            role="button"
-            aria-label={ariaLabel}
-            aria-disabled={disabled}
-            tabIndex={disabled ? -1 : 0}
-            className={cn(
-              'relative cursor-pointer transition-all duration-200',
-              'p-12 md:p-16 flex flex-col items-center justify-center gap-4',
-              'rounded-2xl border-2 border-dashed bg-white',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7F66] focus-visible:ring-offset-2',
-              isDragActive && !isDragReject && 'border-[#FF9B85] bg-[#FFF5F3]',
-              isDragReject && 'border-[#FF7F66] bg-[#FFF5F3]',
-              !isDragActive && 'border-stone-200 hover:border-[#FF9B85] hover:bg-[#FFF5F3]',
-              disabled && 'opacity-50 cursor-not-allowed'
-            )}
           >
-            <input 
-              {...getInputProps()} 
+            <div
+              {...getRootProps()}
+              role="button"
+              aria-label={t('dropzone')}
+              aria-disabled={disabled}
+              tabIndex={disabled ? -1 : 0}
+              className={cn(
+                'relative cursor-pointer transition-all duration-200',
+                'p-12 md:p-16 flex flex-col items-center justify-center gap-4',
+                'rounded-2xl border-2 border-dashed bg-white',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7F66] focus-visible:ring-offset-2',
+                isDragActive && !isDragReject && 'border-[#FF9B85] bg-[#FFF5F3]',
+                isDragReject && 'border-[#FF7F66] bg-[#FFF5F3]',
+                !isDragActive && 'border-stone-200 hover:border-[#FF9B85] hover:bg-[#FFF5F3]',
+                disabled && 'opacity-50 cursor-not-allowed'
+              )}
+            >
+            <input
+              {...getInputProps()}
               id={dropzoneId}
               aria-describedby={descriptionId}
             />
             <span id={descriptionId} className="sr-only">
-              Supported formats: PNG, JPG, WebP. Maximum file size: {UPLOAD_CONFIG.maxSizeBytes / 1024 / 1024}MB
+              {t('supportedFormats', { size: maxSizeMB })}
             </span>
 
             {/* Icon */}
             <div
               className={cn(
                 'p-4 rounded-full transition-colors',
-                isDragReject 
-                  ? 'bg-[#FFE8E3]' 
-                  : isDragActive 
-                    ? 'bg-[#FFE8E3]' 
+                isDragReject
+                  ? 'bg-[#FFE8E3]'
+                  : isDragActive
+                    ? 'bg-[#FFE8E3]'
                     : 'bg-stone-100'
               )}
             >
@@ -172,14 +177,14 @@ export function DropZone({
                 'text-base font-medium mb-1',
                 isDragReject ? 'text-[#FF7F66]' : isDragActive ? 'text-[#FF7F66]' : 'text-stone-700'
               )}>
-                {isDragReject 
-                  ? 'File not supported' 
-                  : isDragActive 
-                    ? 'Drop to upload' 
-                    : 'Drop your image here'}
+                {isDragReject
+                  ? t('fileNotSupported')
+                  : isDragActive
+                    ? t('dropToUpload')
+                    : t('dropzone')}
               </p>
               <p className="text-sm text-stone-400">
-                or <span className="text-[#FF7F66] hover:text-[#E86B52] cursor-pointer">browse files</span>
+                ou <span className="text-[#FF7F66] hover:text-[#E86B52] cursor-pointer">parcourir</span>
               </p>
             </div>
 
@@ -189,7 +194,8 @@ export function DropZone({
               <span className="px-2 py-1 rounded bg-stone-100">JPG</span>
               <span className="px-2 py-1 rounded bg-stone-100">WebP</span>
               <span className="mx-1">·</span>
-              <span>Max {UPLOAD_CONFIG.maxSizeBytes / 1024 / 1024}MB</span>
+              <span>{t('formats', { size: maxSizeMB })}</span>
+            </div>
             </div>
           </motion.div>
         )}

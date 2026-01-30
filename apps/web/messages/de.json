@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "tryAgain": "Erneut versuchen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen"
+  },
+  "nav": {
+    "howItWorks": "So funktioniert's",
+    "github": "GitHub",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "settings": "Einstellungen",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
+  "home": {
+    "badge": "KI-Bildverbesserung",
+    "title": "Machen Sie unscharfe Fotos",
+    "titleHighlight": "wieder scharf",
+    "subtitle": "Laden Sie ein beliebiges Foto hoch und sehen Sie zu, wie es sich verwandelt. 4x Vergrößerung, Detailwiederherstellung, keine Wasserzeichen. Ihre Bilder bleiben privat.",
+    "features": {
+      "free": "Kostenlos",
+      "upscaling": "4x Vergrößerung",
+      "private": "Privat"
+    },
+    "howItWorks": {
+      "title": "So funktioniert's",
+      "subtitle": "Drei einfache Schritte. Kein Konto erforderlich.",
+      "step1": {
+        "title": "Hochladen",
+        "desc": "Ziehen Sie Ihr Bild hierher oder klicken Sie zum Durchsuchen. Wir akzeptieren PNG, JPG und WebP."
+      },
+      "step2": {
+        "title": "Verarbeitung",
+        "desc": "Unsere KI analysiert und verbessert jedes Detail. Dauert etwa 10-15 Sekunden."
+      },
+      "step3": {
+        "title": "Herunterladen",
+        "desc": "Erhalten Sie Ihr verbessertes Bild in 4x Auflösung. Keine Wasserzeichen, keine Haken."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Bild hier ablegen",
+    "dropToUpload": "Zum Hochladen ablegen",
+    "fileNotSupported": "Datei nicht unterstützt",
+    "browseFiles": "oder <link>Dateien durchsuchen</link>",
+    "formats": "Max {size}MB",
+    "enhance": "Bild verbessern",
+    "remove": "Bild entfernen",
+    "uploading": "Bild wird hochgeladen...",
+    "processing": "Verarbeitung...",
+    "supportedFormats": "Unterstützte Formate: PNG, JPG, WebP. Maximale Dateigröße: {size}MB"
+  },
+  "result": {
+    "ready": "Bereit zum Herunterladen",
+    "download": "Herunterladen",
+    "newImage": "Neues Bild",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Etwas ist schiefgelaufen",
+    "unexpected": "Ein unerwarteter Fehler ist aufgetreten",
+    "fileTooLarge": "Datei zu groß",
+    "fileNotSupported": "Datei nicht unterstützt",
+    "uploadFailed": "Hochladen fehlgeschlagen",
+    "processingFailed": "Verarbeitung fehlgeschlagen"
+  },
+  "auth": {
+    "welcomeBack": "Willkommen zurück",
+    "signInSubtitle": "Melden Sie sich an, um Ihre Bilder weiter zu verbessern",
+    "createAccount": "Konto erstellen",
+    "signUpSubtitle": "Beginnen Sie noch heute mit der Bildverbesserung",
+    "email": "E-Mail",
+    "emailPlaceholder": "sie@beispiel.de",
+    "password": "Passwort",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Passwort bestätigen",
+    "passwordHint": "Mindestens 8 Zeichen",
+    "signIn": "Anmelden",
+    "signingIn": "Anmeldung...",
+    "signUp": "Registrieren",
+    "creatingAccount": "Konto wird erstellt...",
+    "createAccountBtn": "Konto erstellen",
+    "orContinueWith": "oder weiter mit",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Kein Konto?",
+    "hasAccount": "Bereits ein Konto?",
+    "termsNotice": "Mit der Registrierung stimmen Sie unseren Nutzungsbedingungen und Datenschutzrichtlinien zu.",
+    "checkEmail": "E-Mail überprüfen",
+    "confirmationSent": "Wir haben einen Bestätigungslink an <strong>{email}</strong> gesendet",
+    "clickToComplete": "Klicken Sie auf den Link in Ihrer E-Mail, um die Registrierung abzuschließen.",
+    "errors": {
+      "signInFailed": "Anmeldung fehlgeschlagen",
+      "signUpFailed": "Registrierung fehlgeschlagen",
+      "googleFailed": "Google-Anmeldung fehlgeschlagen",
+      "githubFailed": "GitHub-Anmeldung fehlgeschlagen",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "passwordTooShort": "Passwort muss mindestens 8 Zeichen haben"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Mit Sorgfalt erstellt"
+  },
+  "language": {
+    "select": "Sprache wählen",
+    "current": "Aktuelle Sprache"
+  }
+}

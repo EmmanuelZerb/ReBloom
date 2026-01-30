@@ -1,10 +1,7 @@
 'use client';
 
-/**
- * Signup Form Component
- */
-
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { Mail, Lock, Loader2, Github, Check } from 'lucide-react';
 
@@ -15,6 +12,7 @@ interface SignupFormProps {
 
 export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
   const { signUpWithEmail, signInWithGoogle, signInWithGithub, isLoading } = useAuth();
+  const t = useTranslations('auth');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,12 +26,12 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('errors.passwordMismatch'));
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters');
+      setError(t('errors.passwordTooShort'));
       return;
     }
 
@@ -43,7 +41,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
       await signUpWithEmail(email, password);
       setIsSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign up');
+      setError(err instanceof Error ? err.message : t('errors.signUpFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -53,7 +51,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
     try {
       await signInWithGoogle();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign up with Google');
+      setError(err instanceof Error ? err.message : t('errors.googleFailed'));
     }
   };
 
@@ -61,7 +59,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
     try {
       await signInWithGithub();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign up with GitHub');
+      setError(err instanceof Error ? err.message : t('errors.githubFailed'));
     }
   };
 
@@ -72,12 +70,12 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
           <div className="w-16 h-16 bg-[#F3F8F5] rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="h-8 w-8 text-[#86B09B]" />
           </div>
-          <h2 className="text-2xl font-semibold text-stone-900 mb-2">Check your email</h2>
-          <p className="text-stone-600 mb-4">
-            We've sent a confirmation link to <strong className="text-stone-900">{email}</strong>
-          </p>
+          <h2 className="text-2xl font-semibold text-stone-900 mb-2">{t('checkEmail')}</h2>
+          <p className="text-stone-600 mb-4" dangerouslySetInnerHTML={{
+            __html: t('confirmationSent', { email: `<strong class="text-stone-900">${email}</strong>` })
+          }} />
           <p className="text-sm text-stone-500">
-            Click the link in your email to complete your registration.
+            {t('clickToComplete')}
           </p>
         </div>
       </div>
@@ -93,10 +91,10 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             ReBloom
           </a>
           <h2 className="text-2xl font-semibold text-stone-900 mb-2">
-            Create your account
+            {t('createAccount')}
           </h2>
           <p className="text-stone-500 text-sm">
-            Start enhancing your images today
+            {t('signUpSubtitle')}
           </p>
         </div>
 
@@ -109,7 +107,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-2">
-              Email
+              {t('email')}
             </label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
@@ -119,7 +117,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F66]/20 focus:border-[#FF7F66] transition-all"
-                placeholder="you@example.com"
+                placeholder={t('emailPlaceholder')}
                 required
               />
             </div>
@@ -127,7 +125,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-stone-700 mb-2">
-              Password
+              {t('password')}
             </label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
@@ -137,17 +135,17 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F66]/20 focus:border-[#FF7F66] transition-all"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 minLength={8}
                 required
               />
             </div>
-            <p className="mt-1.5 text-xs text-stone-400">At least 8 characters</p>
+            <p className="mt-1.5 text-xs text-stone-400">{t('passwordHint')}</p>
           </div>
 
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-stone-700 mb-2">
-              Confirm Password
+              {t('confirmPassword')}
             </label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
@@ -157,7 +155,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F66]/20 focus:border-[#FF7F66] transition-all"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 required
               />
             </div>
@@ -171,10 +169,10 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Creating account...
+                {t('creatingAccount')}
               </>
             ) : (
-              'Create account'
+              t('createAccountBtn')
             )}
           </button>
         </form>
@@ -184,7 +182,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             <div className="w-full border-t border-stone-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-3 bg-white text-stone-400">or continue with</span>
+            <span className="px-3 bg-white text-stone-400">{t('orContinueWith')}</span>
           </div>
         </div>
 
@@ -211,7 +209,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               />
             </svg>
-            Google
+            {t('google')}
           </button>
 
           <button
@@ -219,22 +217,22 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all"
           >
             <Github className="h-4 w-4" />
-            GitHub
+            {t('github')}
           </button>
         </div>
 
         <p className="mt-6 text-xs text-center text-stone-400">
-          By signing up, you agree to our Terms of Service and Privacy Policy.
+          {t('termsNotice')}
         </p>
 
         {onSwitchToLogin && (
           <p className="mt-6 text-center text-sm text-stone-500">
-            Already have an account?{' '}
+            {t('hasAccount')}{' '}
             <button
               onClick={onSwitchToLogin}
               className="text-stone-900 hover:text-[#FF7F66] font-medium transition-colors"
             >
-              Sign in
+              {t('signIn')}
             </button>
           </p>
         )}

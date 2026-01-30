@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "tryAgain": "Intentar de nuevo",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar"
+  },
+  "nav": {
+    "howItWorks": "Cómo funciona",
+    "github": "GitHub",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "settings": "Configuración",
+    "skipToContent": "Ir al contenido principal"
+  },
+  "home": {
+    "badge": "Mejora de imágenes con IA",
+    "title": "Haz que las fotos borrosas",
+    "titleHighlight": "vuelvan a ser nítidas",
+    "subtitle": "Sube cualquier foto y mira cómo se transforma. Ampliación 4x, restauración de detalles, sin marcas de agua. Tus imágenes permanecen privadas.",
+    "features": {
+      "free": "Gratis",
+      "upscaling": "Ampliación 4x",
+      "private": "Privado"
+    },
+    "howItWorks": {
+      "title": "Cómo funciona",
+      "subtitle": "Tres pasos simples. No se necesita cuenta.",
+      "step1": {
+        "title": "Subir",
+        "desc": "Arrastra tu imagen o haz clic para explorar. Aceptamos PNG, JPG y WebP."
+      },
+      "step2": {
+        "title": "Procesar",
+        "desc": "Nuestra IA analiza y mejora cada detalle. Tarda unos 10-15 segundos."
+      },
+      "step3": {
+        "title": "Descargar",
+        "desc": "Obtén tu imagen mejorada en resolución 4x. Sin marcas de agua, sin trucos."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Suelta tu imagen aquí",
+    "dropToUpload": "Suelta para subir",
+    "fileNotSupported": "Archivo no compatible",
+    "browseFiles": "o <link>explorar archivos</link>",
+    "formats": "Máx {size}MB",
+    "enhance": "Mejorar imagen",
+    "remove": "Eliminar imagen",
+    "uploading": "Subiendo tu imagen...",
+    "processing": "Procesando...",
+    "supportedFormats": "Formatos compatibles: PNG, JPG, WebP. Tamaño máximo: {size}MB"
+  },
+  "result": {
+    "ready": "Listo para descargar",
+    "download": "Descargar",
+    "newImage": "Nueva imagen",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Algo salió mal",
+    "unexpected": "Ha ocurrido un error inesperado",
+    "fileTooLarge": "Archivo demasiado grande",
+    "fileNotSupported": "Archivo no compatible",
+    "uploadFailed": "Error al subir",
+    "processingFailed": "Error en el procesamiento"
+  },
+  "auth": {
+    "welcomeBack": "Bienvenido de nuevo",
+    "signInSubtitle": "Inicia sesión para continuar mejorando tus imágenes",
+    "createAccount": "Crear tu cuenta",
+    "signUpSubtitle": "Comienza a mejorar tus imágenes hoy",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "password": "Contraseña",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordHint": "Al menos 8 caracteres",
+    "signIn": "Iniciar sesión",
+    "signingIn": "Iniciando sesión...",
+    "signUp": "Registrarse",
+    "creatingAccount": "Creando cuenta...",
+    "createAccountBtn": "Crear cuenta",
+    "orContinueWith": "o continuar con",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "termsNotice": "Al registrarte, aceptas nuestros Términos de servicio y Política de privacidad.",
+    "checkEmail": "Revisa tu correo",
+    "confirmationSent": "Hemos enviado un enlace de confirmación a <strong>{email}</strong>",
+    "clickToComplete": "Haz clic en el enlace de tu correo para completar el registro.",
+    "errors": {
+      "signInFailed": "Error al iniciar sesión",
+      "signUpFailed": "Error al registrarse",
+      "googleFailed": "Error al iniciar sesión con Google",
+      "githubFailed": "Error al iniciar sesión con GitHub",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Hecho con cariño"
+  },
+  "language": {
+    "select": "Seleccionar idioma",
+    "current": "Idioma actual"
+  }
+}

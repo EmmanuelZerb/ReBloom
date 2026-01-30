@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Ładowanie...",
+    "error": "Wystąpił błąd",
+    "tryAgain": "Spróbuj ponownie",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "close": "Zamknij"
+  },
+  "nav": {
+    "howItWorks": "Jak to działa",
+    "github": "GitHub",
+    "signIn": "Zaloguj się",
+    "signOut": "Wyloguj się",
+    "settings": "Ustawienia",
+    "skipToContent": "Przejdź do głównej treści"
+  },
+  "home": {
+    "badge": "Ulepszanie obrazów AI",
+    "title": "Spraw, by rozmyte zdjęcia",
+    "titleHighlight": "były znów ostre",
+    "subtitle": "Prześlij dowolne zdjęcie i obserwuj transformację. Powiększenie 4x, przywracanie detali, bez znaków wodnych. Twoje obrazy pozostają prywatne.",
+    "features": {
+      "free": "Bezpłatnie",
+      "upscaling": "Powiększenie 4x",
+      "private": "Prywatne"
+    },
+    "howItWorks": {
+      "title": "Jak to działa",
+      "subtitle": "Trzy proste kroki. Bez konta.",
+      "step1": {
+        "title": "Prześlij",
+        "desc": "Przeciągnij obraz lub kliknij, aby przeglądać. Akceptujemy PNG, JPG i WebP."
+      },
+      "step2": {
+        "title": "Przetwarzanie",
+        "desc": "Nasza AI analizuje i ulepsza każdy detal. Zajmuje około 10-15 sekund."
+      },
+      "step3": {
+        "title": "Pobierz",
+        "desc": "Otrzymaj ulepszony obraz w rozdzielczości 4x. Bez znaków wodnych, bez haczyków."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Upuść obraz tutaj",
+    "dropToUpload": "Upuść, aby przesłać",
+    "fileNotSupported": "Plik nieobsługiwany",
+    "browseFiles": "lub <link>przeglądaj pliki</link>",
+    "formats": "Maks. {size}MB",
+    "enhance": "Ulepsz obraz",
+    "remove": "Usuń obraz",
+    "uploading": "Przesyłanie obrazu...",
+    "processing": "Przetwarzanie...",
+    "supportedFormats": "Obsługiwane formaty: PNG, JPG, WebP. Maksymalny rozmiar: {size}MB"
+  },
+  "result": {
+    "ready": "Gotowe do pobrania",
+    "download": "Pobierz",
+    "newImage": "Nowy obraz",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Coś poszło nie tak",
+    "unexpected": "Wystąpił nieoczekiwany błąd",
+    "fileTooLarge": "Plik za duży",
+    "fileNotSupported": "Plik nieobsługiwany",
+    "uploadFailed": "Przesyłanie nie powiodło się",
+    "processingFailed": "Przetwarzanie nie powiodło się"
+  },
+  "auth": {
+    "welcomeBack": "Witaj ponownie",
+    "signInSubtitle": "Zaloguj się, aby kontynuować ulepszanie obrazów",
+    "createAccount": "Utwórz konto",
+    "signUpSubtitle": "Zacznij ulepszać swoje obrazy już dziś",
+    "email": "Email",
+    "emailPlaceholder": "ty@przykład.pl",
+    "password": "Hasło",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Potwierdź hasło",
+    "passwordHint": "Minimum 8 znaków",
+    "signIn": "Zaloguj się",
+    "signingIn": "Logowanie...",
+    "signUp": "Zarejestruj się",
+    "creatingAccount": "Tworzenie konta...",
+    "createAccountBtn": "Utwórz konto",
+    "orContinueWith": "lub kontynuuj z",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Nie masz konta?",
+    "hasAccount": "Masz już konto?",
+    "termsNotice": "Rejestrując się, akceptujesz nasze Warunki korzystania z usługi i Politykę prywatności.",
+    "checkEmail": "Sprawdź email",
+    "confirmationSent": "Wysłaliśmy link potwierdzający na <strong>{email}</strong>",
+    "clickToComplete": "Kliknij link w emailu, aby dokończyć rejestrację.",
+    "errors": {
+      "signInFailed": "Logowanie nie powiodło się",
+      "signUpFailed": "Rejestracja nie powiodła się",
+      "googleFailed": "Logowanie przez Google nie powiodło się",
+      "githubFailed": "Logowanie przez GitHub nie powiodło się",
+      "passwordMismatch": "Hasła nie są zgodne",
+      "passwordTooShort": "Hasło musi mieć minimum 8 znaków"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Stworzone z dbałością"
+  },
+  "language": {
+    "select": "Wybierz język",
+    "current": "Obecny język"
+  }
+}

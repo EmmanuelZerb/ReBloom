@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "tryAgain": "Réessayer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "close": "Fermer"
+  },
+  "nav": {
+    "howItWorks": "Comment ça marche",
+    "github": "GitHub",
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "settings": "Paramètres",
+    "skipToContent": "Aller au contenu principal"
+  },
+  "home": {
+    "badge": "Amélioration d'images par IA",
+    "title": "Rendez vos photos floues",
+    "titleHighlight": "nettes à nouveau",
+    "subtitle": "Téléchargez n'importe quelle photo et regardez-la se transformer. Agrandissement 4x, restauration des détails, sans filigrane. Vos images restent privées.",
+    "features": {
+      "free": "Gratuit",
+      "upscaling": "Agrandissement 4x",
+      "private": "Privé"
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "subtitle": "Trois étapes simples. Aucun compte requis.",
+      "step1": {
+        "title": "Télécharger",
+        "desc": "Glissez votre image ou cliquez pour parcourir. Nous acceptons PNG, JPG et WebP."
+      },
+      "step2": {
+        "title": "Traitement",
+        "desc": "Notre IA analyse et améliore chaque détail. Environ 10-15 secondes."
+      },
+      "step3": {
+        "title": "Télécharger",
+        "desc": "Obtenez votre image améliorée en résolution 4x. Sans filigrane, sans piège."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Déposez votre image ici",
+    "dropToUpload": "Déposez pour télécharger",
+    "fileNotSupported": "Fichier non supporté",
+    "browseFiles": "ou <link>parcourir les fichiers</link>",
+    "formats": "Max {size}Mo",
+    "enhance": "Améliorer l'image",
+    "remove": "Supprimer l'image",
+    "uploading": "Téléchargement de votre image...",
+    "processing": "Traitement en cours...",
+    "supportedFormats": "Formats supportés : PNG, JPG, WebP. Taille maximale : {size}Mo"
+  },
+  "result": {
+    "ready": "Prêt à télécharger",
+    "download": "Télécharger",
+    "newImage": "Nouvelle image",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue",
+    "unexpected": "Une erreur inattendue s'est produite",
+    "fileTooLarge": "Fichier trop volumineux",
+    "fileNotSupported": "Fichier non supporté",
+    "uploadFailed": "Échec du téléchargement",
+    "processingFailed": "Échec du traitement"
+  },
+  "auth": {
+    "welcomeBack": "Bon retour",
+    "signInSubtitle": "Connectez-vous pour continuer à améliorer vos images",
+    "createAccount": "Créer votre compte",
+    "signUpSubtitle": "Commencez à améliorer vos images aujourd'hui",
+    "email": "Email",
+    "emailPlaceholder": "vous@exemple.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordHint": "Au moins 8 caractères",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion en cours...",
+    "signUp": "S'inscrire",
+    "creatingAccount": "Création du compte...",
+    "createAccountBtn": "Créer un compte",
+    "orContinueWith": "ou continuer avec",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "termsNotice": "En vous inscrivant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
+    "checkEmail": "Vérifiez votre email",
+    "confirmationSent": "Nous avons envoyé un lien de confirmation à <strong>{email}</strong>",
+    "clickToComplete": "Cliquez sur le lien dans votre email pour terminer votre inscription.",
+    "errors": {
+      "signInFailed": "Échec de la connexion",
+      "signUpFailed": "Échec de l'inscription",
+      "googleFailed": "Échec de la connexion avec Google",
+      "githubFailed": "Échec de la connexion avec GitHub",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères"
+    }
+  },
+  "footer": {
+    "poweredBy": "Propulsé par Real-ESRGAN",
+    "madeWith": "Fait avec soin"
+  },
+  "language": {
+    "select": "Choisir la langue",
+    "current": "Langue actuelle"
+  }
+}

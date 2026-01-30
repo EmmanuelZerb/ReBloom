@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Laddar...",
+    "error": "Ett fel uppstod",
+    "tryAgain": "Försök igen",
+    "cancel": "Avbryt",
+    "save": "Spara",
+    "close": "Stäng"
+  },
+  "nav": {
+    "howItWorks": "Så fungerar det",
+    "github": "GitHub",
+    "signIn": "Logga in",
+    "signOut": "Logga ut",
+    "settings": "Inställningar",
+    "skipToContent": "Gå till huvudinnehåll"
+  },
+  "home": {
+    "badge": "AI-bildförbättring",
+    "title": "Gör suddiga foton",
+    "titleHighlight": "skarpa igen",
+    "subtitle": "Ladda upp valfritt foto och se det förvandlas. 4x förstoring, detaljåterställning, inga vattenstämplar. Dina bilder förblir privata.",
+    "features": {
+      "free": "Gratis",
+      "upscaling": "4x förstoring",
+      "private": "Privat"
+    },
+    "howItWorks": {
+      "title": "Så fungerar det",
+      "subtitle": "Tre enkla steg. Inget konto behövs.",
+      "step1": {
+        "title": "Ladda upp",
+        "desc": "Dra din bild eller klicka för att bläddra. Vi accepterar PNG, JPG och WebP."
+      },
+      "step2": {
+        "title": "Bearbetning",
+        "desc": "Vår AI analyserar och förbättrar varje detalj. Tar cirka 10-15 sekunder."
+      },
+      "step3": {
+        "title": "Ladda ner",
+        "desc": "Få din förbättrade bild i 4x upplösning. Inga vattenstämplar, inga fällor."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Släpp din bild här",
+    "dropToUpload": "Släpp för att ladda upp",
+    "fileNotSupported": "Filen stöds inte",
+    "browseFiles": "eller <link>bläddra bland filer</link>",
+    "formats": "Max {size}MB",
+    "enhance": "Förbättra bild",
+    "remove": "Ta bort bild",
+    "uploading": "Laddar upp din bild...",
+    "processing": "Bearbetar...",
+    "supportedFormats": "Format som stöds: PNG, JPG, WebP. Maximal filstorlek: {size}MB"
+  },
+  "result": {
+    "ready": "Redo att ladda ner",
+    "download": "Ladda ner",
+    "newImage": "Ny bild",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Något gick fel",
+    "unexpected": "Ett oväntat fel uppstod",
+    "fileTooLarge": "Filen är för stor",
+    "fileNotSupported": "Filen stöds inte",
+    "uploadFailed": "Uppladdning misslyckades",
+    "processingFailed": "Bearbetning misslyckades"
+  },
+  "auth": {
+    "welcomeBack": "Välkommen tillbaka",
+    "signInSubtitle": "Logga in för att fortsätta förbättra dina bilder",
+    "createAccount": "Skapa ditt konto",
+    "signUpSubtitle": "Börja förbättra dina bilder idag",
+    "email": "E-post",
+    "emailPlaceholder": "du@exempel.se",
+    "password": "Lösenord",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Bekräfta lösenord",
+    "passwordHint": "Minst 8 tecken",
+    "signIn": "Logga in",
+    "signingIn": "Loggar in...",
+    "signUp": "Registrera",
+    "creatingAccount": "Skapar konto...",
+    "createAccountBtn": "Skapa konto",
+    "orContinueWith": "eller fortsätt med",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Inget konto?",
+    "hasAccount": "Har du redan ett konto?",
+    "termsNotice": "Genom att registrera dig godkänner du våra Användarvillkor och Integritetspolicy.",
+    "checkEmail": "Kolla din e-post",
+    "confirmationSent": "Vi har skickat en bekräftelselänk till <strong>{email}</strong>",
+    "clickToComplete": "Klicka på länken i din e-post för att slutföra registreringen.",
+    "errors": {
+      "signInFailed": "Inloggning misslyckades",
+      "signUpFailed": "Registrering misslyckades",
+      "googleFailed": "Google-inloggning misslyckades",
+      "githubFailed": "GitHub-inloggning misslyckades",
+      "passwordMismatch": "Lösenorden matchar inte",
+      "passwordTooShort": "Lösenordet måste ha minst 8 tecken"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Gjord med omsorg"
+  },
+  "language": {
+    "select": "Välj språk",
+    "current": "Nuvarande språk"
+  }
+}

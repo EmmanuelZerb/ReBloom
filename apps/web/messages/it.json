@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "tryAgain": "Riprova",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "close": "Chiudi"
+  },
+  "nav": {
+    "howItWorks": "Come funziona",
+    "github": "GitHub",
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "settings": "Impostazioni",
+    "skipToContent": "Vai al contenuto principale"
+  },
+  "home": {
+    "badge": "Miglioramento immagini con IA",
+    "title": "Rendi le foto sfocate",
+    "titleHighlight": "di nuovo nitide",
+    "subtitle": "Carica qualsiasi foto e guardala trasformarsi. Ingrandimento 4x, ripristino dei dettagli, nessuna filigrana. Le tue immagini restano private.",
+    "features": {
+      "free": "Gratuito",
+      "upscaling": "Ingrandimento 4x",
+      "private": "Privato"
+    },
+    "howItWorks": {
+      "title": "Come funziona",
+      "subtitle": "Tre semplici passaggi. Nessun account richiesto.",
+      "step1": {
+        "title": "Carica",
+        "desc": "Trascina la tua immagine o clicca per sfogliare. Accettiamo PNG, JPG e WebP."
+      },
+      "step2": {
+        "title": "Elaborazione",
+        "desc": "La nostra IA analizza e migliora ogni dettaglio. Richiede circa 10-15 secondi."
+      },
+      "step3": {
+        "title": "Scarica",
+        "desc": "Ottieni la tua immagine migliorata in risoluzione 4x. Nessuna filigrana, nessun trucco."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Trascina la tua immagine qui",
+    "dropToUpload": "Rilascia per caricare",
+    "fileNotSupported": "File non supportato",
+    "browseFiles": "o <link>sfoglia i file</link>",
+    "formats": "Max {size}MB",
+    "enhance": "Migliora immagine",
+    "remove": "Rimuovi immagine",
+    "uploading": "Caricamento immagine...",
+    "processing": "Elaborazione...",
+    "supportedFormats": "Formati supportati: PNG, JPG, WebP. Dimensione massima: {size}MB"
+  },
+  "result": {
+    "ready": "Pronto per il download",
+    "download": "Scarica",
+    "newImage": "Nuova immagine",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Qualcosa è andato storto",
+    "unexpected": "Si è verificato un errore imprevisto",
+    "fileTooLarge": "File troppo grande",
+    "fileNotSupported": "File non supportato",
+    "uploadFailed": "Caricamento fallito",
+    "processingFailed": "Elaborazione fallita"
+  },
+  "auth": {
+    "welcomeBack": "Bentornato",
+    "signInSubtitle": "Accedi per continuare a migliorare le tue immagini",
+    "createAccount": "Crea il tuo account",
+    "signUpSubtitle": "Inizia a migliorare le tue immagini oggi",
+    "email": "Email",
+    "emailPlaceholder": "tu@esempio.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Conferma password",
+    "passwordHint": "Almeno 8 caratteri",
+    "signIn": "Accedi",
+    "signingIn": "Accesso in corso...",
+    "signUp": "Registrati",
+    "creatingAccount": "Creazione account...",
+    "createAccountBtn": "Crea account",
+    "orContinueWith": "o continua con",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Non hai un account?",
+    "hasAccount": "Hai già un account?",
+    "termsNotice": "Registrandoti, accetti i nostri Termini di servizio e la Privacy Policy.",
+    "checkEmail": "Controlla la tua email",
+    "confirmationSent": "Abbiamo inviato un link di conferma a <strong>{email}</strong>",
+    "clickToComplete": "Clicca sul link nella tua email per completare la registrazione.",
+    "errors": {
+      "signInFailed": "Accesso fallito",
+      "signUpFailed": "Registrazione fallita",
+      "googleFailed": "Accesso con Google fallito",
+      "githubFailed": "Accesso con GitHub fallito",
+      "passwordMismatch": "Le password non corrispondono",
+      "passwordTooShort": "La password deve avere almeno 8 caratteri"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Fatto con cura"
+  },
+  "language": {
+    "select": "Seleziona lingua",
+    "current": "Lingua corrente"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "tryAgain": "Opnieuw proberen",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "close": "Sluiten"
+  },
+  "nav": {
+    "howItWorks": "Hoe het werkt",
+    "github": "GitHub",
+    "signIn": "Inloggen",
+    "signOut": "Uitloggen",
+    "settings": "Instellingen",
+    "skipToContent": "Ga naar hoofdinhoud"
+  },
+  "home": {
+    "badge": "AI-beeldverbetering",
+    "title": "Maak wazige foto's",
+    "titleHighlight": "weer scherp",
+    "subtitle": "Upload elke foto en zie de transformatie. 4x vergroting, detailherstel, geen watermerken. Je afbeeldingen blijven privé.",
+    "features": {
+      "free": "Gratis",
+      "upscaling": "4x vergroting",
+      "private": "Privé"
+    },
+    "howItWorks": {
+      "title": "Hoe het werkt",
+      "subtitle": "Drie eenvoudige stappen. Geen account nodig.",
+      "step1": {
+        "title": "Uploaden",
+        "desc": "Sleep je afbeelding of klik om te bladeren. We accepteren PNG, JPG en WebP."
+      },
+      "step2": {
+        "title": "Verwerken",
+        "desc": "Onze AI analyseert en verbetert elk detail. Duurt ongeveer 10-15 seconden."
+      },
+      "step3": {
+        "title": "Downloaden",
+        "desc": "Ontvang je verbeterde afbeelding in 4x resolutie. Geen watermerken, geen addertjes."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Sleep je afbeelding hier",
+    "dropToUpload": "Laat los om te uploaden",
+    "fileNotSupported": "Bestand niet ondersteund",
+    "browseFiles": "of <link>bladeren</link>",
+    "formats": "Max {size}MB",
+    "enhance": "Afbeelding verbeteren",
+    "remove": "Afbeelding verwijderen",
+    "uploading": "Afbeelding uploaden...",
+    "processing": "Verwerken...",
+    "supportedFormats": "Ondersteunde formaten: PNG, JPG, WebP. Maximale bestandsgrootte: {size}MB"
+  },
+  "result": {
+    "ready": "Klaar om te downloaden",
+    "download": "Downloaden",
+    "newImage": "Nieuwe afbeelding",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Er ging iets mis",
+    "unexpected": "Er is een onverwachte fout opgetreden",
+    "fileTooLarge": "Bestand te groot",
+    "fileNotSupported": "Bestand niet ondersteund",
+    "uploadFailed": "Upload mislukt",
+    "processingFailed": "Verwerking mislukt"
+  },
+  "auth": {
+    "welcomeBack": "Welkom terug",
+    "signInSubtitle": "Log in om je afbeeldingen te blijven verbeteren",
+    "createAccount": "Account aanmaken",
+    "signUpSubtitle": "Begin vandaag met het verbeteren van je afbeeldingen",
+    "email": "E-mail",
+    "emailPlaceholder": "jij@voorbeeld.nl",
+    "password": "Wachtwoord",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "passwordHint": "Minimaal 8 tekens",
+    "signIn": "Inloggen",
+    "signingIn": "Inloggen...",
+    "signUp": "Registreren",
+    "creatingAccount": "Account aanmaken...",
+    "createAccountBtn": "Account aanmaken",
+    "orContinueWith": "of doorgaan met",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Geen account?",
+    "hasAccount": "Al een account?",
+    "termsNotice": "Door je te registreren ga je akkoord met onze Servicevoorwaarden en Privacybeleid.",
+    "checkEmail": "Controleer je e-mail",
+    "confirmationSent": "We hebben een bevestigingslink gestuurd naar <strong>{email}</strong>",
+    "clickToComplete": "Klik op de link in je e-mail om de registratie te voltooien.",
+    "errors": {
+      "signInFailed": "Inloggen mislukt",
+      "signUpFailed": "Registratie mislukt",
+      "googleFailed": "Google-login mislukt",
+      "githubFailed": "GitHub-login mislukt",
+      "passwordMismatch": "Wachtwoorden komen niet overeen",
+      "passwordTooShort": "Wachtwoord moet minimaal 8 tekens bevatten"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Met zorg gemaakt"
+  },
+  "language": {
+    "select": "Taal selecteren",
+    "current": "Huidige taal"
+  }
+}

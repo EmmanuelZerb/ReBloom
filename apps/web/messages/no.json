@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Laster...",
+    "error": "En feil oppstod",
+    "tryAgain": "Prøv igjen",
+    "cancel": "Avbryt",
+    "save": "Lagre",
+    "close": "Lukk"
+  },
+  "nav": {
+    "howItWorks": "Slik fungerer det",
+    "github": "GitHub",
+    "signIn": "Logg inn",
+    "signOut": "Logg ut",
+    "settings": "Innstillinger",
+    "skipToContent": "Gå til hovedinnhold"
+  },
+  "home": {
+    "badge": "AI-bildeforbedring",
+    "title": "Gjør uskarpe bilder",
+    "titleHighlight": "skarpe igjen",
+    "subtitle": "Last opp et hvilket som helst bilde og se det forvandles. 4x forstørrelse, detaljgjenoppretting, ingen vannmerker. Bildene dine forblir private.",
+    "features": {
+      "free": "Gratis",
+      "upscaling": "4x forstørrelse",
+      "private": "Privat"
+    },
+    "howItWorks": {
+      "title": "Slik fungerer det",
+      "subtitle": "Tre enkle trinn. Ingen konto nødvendig.",
+      "step1": {
+        "title": "Last opp",
+        "desc": "Dra bildet ditt eller klikk for å bla. Vi godtar PNG, JPG og WebP."
+      },
+      "step2": {
+        "title": "Behandling",
+        "desc": "Vår AI analyserer og forbedrer hver detalj. Tar omtrent 10-15 sekunder."
+      },
+      "step3": {
+        "title": "Last ned",
+        "desc": "Få det forbedrede bildet i 4x oppløsning. Ingen vannmerker, ingen feller."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Slipp bildet her",
+    "dropToUpload": "Slipp for å laste opp",
+    "fileNotSupported": "Fil ikke støttet",
+    "browseFiles": "eller <link>bla gjennom filer</link>",
+    "formats": "Maks {size}MB",
+    "enhance": "Forbedre bilde",
+    "remove": "Fjern bilde",
+    "uploading": "Laster opp bildet...",
+    "processing": "Behandler...",
+    "supportedFormats": "Støttede formater: PNG, JPG, WebP. Maksimal filstørrelse: {size}MB"
+  },
+  "result": {
+    "ready": "Klar til nedlasting",
+    "download": "Last ned",
+    "newImage": "Nytt bilde",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Noe gikk galt",
+    "unexpected": "En uventet feil oppstod",
+    "fileTooLarge": "Fil for stor",
+    "fileNotSupported": "Fil ikke støttet",
+    "uploadFailed": "Opplasting mislyktes",
+    "processingFailed": "Behandling mislyktes"
+  },
+  "auth": {
+    "welcomeBack": "Velkommen tilbake",
+    "signInSubtitle": "Logg inn for å fortsette å forbedre bildene dine",
+    "createAccount": "Opprett din konto",
+    "signUpSubtitle": "Begynn å forbedre bildene dine i dag",
+    "email": "E-post",
+    "emailPlaceholder": "deg@eksempel.no",
+    "password": "Passord",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Bekreft passord",
+    "passwordHint": "Minst 8 tegn",
+    "signIn": "Logg inn",
+    "signingIn": "Logger inn...",
+    "signUp": "Registrer",
+    "creatingAccount": "Oppretter konto...",
+    "createAccountBtn": "Opprett konto",
+    "orContinueWith": "eller fortsett med",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Ingen konto?",
+    "hasAccount": "Har du allerede en konto?",
+    "termsNotice": "Ved å registrere deg godtar du våre Tjenestevilkår og Personvernregler.",
+    "checkEmail": "Sjekk e-posten din",
+    "confirmationSent": "Vi har sendt en bekreftelseslenke til <strong>{email}</strong>",
+    "clickToComplete": "Klikk på lenken i e-posten for å fullføre registreringen.",
+    "errors": {
+      "signInFailed": "Innlogging mislyktes",
+      "signUpFailed": "Registrering mislyktes",
+      "googleFailed": "Google-innlogging mislyktes",
+      "githubFailed": "GitHub-innlogging mislyktes",
+      "passwordMismatch": "Passordene stemmer ikke overens",
+      "passwordTooShort": "Passordet må ha minst 8 tegn"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Laget med omtanke"
+  },
+  "language": {
+    "select": "Velg språk",
+    "current": "Nåværende språk"
+  }
+}

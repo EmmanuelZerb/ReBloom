@@ -1,11 +1,7 @@
 'use client';
 
-/**
- * Login Form Component
- * Supports email/password and OAuth providers
- */
-
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { Mail, Lock, Loader2, Github } from 'lucide-react';
 
@@ -16,6 +12,7 @@ interface LoginFormProps {
 
 export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
   const { signInWithEmail, signInWithGoogle, signInWithGithub, isLoading } = useAuth();
+  const t = useTranslations('auth');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +28,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
       await signInWithEmail(email, password);
       onSuccess?.();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in');
+      setError(err instanceof Error ? err.message : t('errors.signInFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -41,7 +38,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
     try {
       await signInWithGoogle();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in with Google');
+      setError(err instanceof Error ? err.message : t('errors.googleFailed'));
     }
   };
 
@@ -49,7 +46,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
     try {
       await signInWithGithub();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in with GitHub');
+      setError(err instanceof Error ? err.message : t('errors.githubFailed'));
     }
   };
 
@@ -62,10 +59,10 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
             ReBloom
           </a>
           <h2 className="text-2xl font-semibold text-stone-900 mb-2">
-            Welcome back
+            {t('welcomeBack')}
           </h2>
           <p className="text-stone-500 text-sm">
-            Sign in to continue enhancing your images
+            {t('signInSubtitle')}
           </p>
         </div>
 
@@ -78,7 +75,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-2">
-              Email
+              {t('email')}
             </label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
@@ -88,7 +85,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F66]/20 focus:border-[#FF7F66] transition-all"
-                placeholder="you@example.com"
+                placeholder={t('emailPlaceholder')}
                 required
               />
             </div>
@@ -96,7 +93,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-stone-700 mb-2">
-              Password
+              {t('password')}
             </label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
@@ -106,7 +103,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F66]/20 focus:border-[#FF7F66] transition-all"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 required
               />
             </div>
@@ -120,10 +117,10 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Signing in...
+                {t('signingIn')}
               </>
             ) : (
-              'Sign in'
+              t('signIn')
             )}
           </button>
         </form>
@@ -133,7 +130,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
             <div className="w-full border-t border-stone-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-3 bg-white text-stone-400">or continue with</span>
+            <span className="px-3 bg-white text-stone-400">{t('orContinueWith')}</span>
           </div>
         </div>
 
@@ -160,7 +157,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               />
             </svg>
-            Google
+            {t('google')}
           </button>
 
           <button
@@ -168,18 +165,18 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
             className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all"
           >
             <Github className="h-4 w-4" />
-            GitHub
+            {t('github')}
           </button>
         </div>
 
         {onSwitchToSignup && (
           <p className="mt-8 text-center text-sm text-stone-500">
-            Don't have an account?{' '}
+            {t('noAccount')}{' '}
             <button
               onClick={onSwitchToSignup}
               className="text-stone-900 hover:text-[#FF7F66] font-medium transition-colors"
             >
-              Sign up
+              {t('signUp')}
             </button>
           </p>
         )}

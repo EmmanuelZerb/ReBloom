@@ -1,0 +1,115 @@
+{
+  "common": {
+    "appName": "ReBloom",
+    "loading": "Indlæser...",
+    "error": "Der opstod en fejl",
+    "tryAgain": "Prøv igen",
+    "cancel": "Annuller",
+    "save": "Gem",
+    "close": "Luk"
+  },
+  "nav": {
+    "howItWorks": "Sådan fungerer det",
+    "github": "GitHub",
+    "signIn": "Log ind",
+    "signOut": "Log ud",
+    "settings": "Indstillinger",
+    "skipToContent": "Gå til hovedindhold"
+  },
+  "home": {
+    "badge": "AI-billedforbedring",
+    "title": "Gør slørede fotos",
+    "titleHighlight": "skarpe igen",
+    "subtitle": "Upload et hvilket som helst foto og se det blive transformeret. 4x forstørrelse, detaljegendannelse, ingen vandmærker. Dine billeder forbliver private.",
+    "features": {
+      "free": "Gratis",
+      "upscaling": "4x forstørrelse",
+      "private": "Privat"
+    },
+    "howItWorks": {
+      "title": "Sådan fungerer det",
+      "subtitle": "Tre enkle trin. Ingen konto nødvendig.",
+      "step1": {
+        "title": "Upload",
+        "desc": "Træk dit billede eller klik for at gennemse. Vi accepterer PNG, JPG og WebP."
+      },
+      "step2": {
+        "title": "Behandling",
+        "desc": "Vores AI analyserer og forbedrer hver detalje. Tager cirka 10-15 sekunder."
+      },
+      "step3": {
+        "title": "Download",
+        "desc": "Få dit forbedrede billede i 4x opløsning. Ingen vandmærker, ingen fælder."
+      }
+    }
+  },
+  "upload": {
+    "dropzone": "Slip dit billede her",
+    "dropToUpload": "Slip for at uploade",
+    "fileNotSupported": "Fil ikke understøttet",
+    "browseFiles": "eller <link>gennemse filer</link>",
+    "formats": "Maks {size}MB",
+    "enhance": "Forbedre billede",
+    "remove": "Fjern billede",
+    "uploading": "Uploader dit billede...",
+    "processing": "Behandler...",
+    "supportedFormats": "Understøttede formater: PNG, JPG, WebP. Maksimal filstørrelse: {size}MB"
+  },
+  "result": {
+    "ready": "Klar til download",
+    "download": "Download",
+    "newImage": "Nyt billede",
+    "dimensions": "{width} × {height}px",
+    "processingTime": "{time}s"
+  },
+  "errors": {
+    "generic": "Noget gik galt",
+    "unexpected": "Der opstod en uventet fejl",
+    "fileTooLarge": "Fil for stor",
+    "fileNotSupported": "Fil ikke understøttet",
+    "uploadFailed": "Upload mislykkedes",
+    "processingFailed": "Behandling mislykkedes"
+  },
+  "auth": {
+    "welcomeBack": "Velkommen tilbage",
+    "signInSubtitle": "Log ind for at fortsætte med at forbedre dine billeder",
+    "createAccount": "Opret din konto",
+    "signUpSubtitle": "Begynd at forbedre dine billeder i dag",
+    "email": "E-mail",
+    "emailPlaceholder": "dig@eksempel.dk",
+    "password": "Adgangskode",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Bekræft adgangskode",
+    "passwordHint": "Mindst 8 tegn",
+    "signIn": "Log ind",
+    "signingIn": "Logger ind...",
+    "signUp": "Tilmeld",
+    "creatingAccount": "Opretter konto...",
+    "createAccountBtn": "Opret konto",
+    "orContinueWith": "eller fortsæt med",
+    "google": "Google",
+    "github": "GitHub",
+    "noAccount": "Ingen konto?",
+    "hasAccount": "Har du allerede en konto?",
+    "termsNotice": "Ved at tilmelde dig accepterer du vores Servicevilkår og Privatlivspolitik.",
+    "checkEmail": "Tjek din e-mail",
+    "confirmationSent": "Vi har sendt et bekræftelseslink til <strong>{email}</strong>",
+    "clickToComplete": "Klik på linket i din e-mail for at fuldføre registreringen.",
+    "errors": {
+      "signInFailed": "Login mislykkedes",
+      "signUpFailed": "Tilmelding mislykkedes",
+      "googleFailed": "Google-login mislykkedes",
+      "githubFailed": "GitHub-login mislykkedes",
+      "passwordMismatch": "Adgangskoderne matcher ikke",
+      "passwordTooShort": "Adgangskoden skal have mindst 8 tegn"
+    }
+  },
+  "footer": {
+    "poweredBy": "Powered by Real-ESRGAN",
+    "madeWith": "Lavet med omhu"
+  },
+  "language": {
+    "select": "Vælg sprog",
+    "current": "Nuværende sprog"
+  }
+}
