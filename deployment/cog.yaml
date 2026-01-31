@@ -5,6 +5,6 @@ build:
     - torchvision==0.16.0
     - pillow>=10.0.0
   gpu: true
-  cuda: "12.1"
+  cuda: "11.8"
 
 predict: "predict.py:Predictor"
