@@ -1,0 +1,10 @@
+build:
+  python_version: "3.10"
+  python_packages:
+    - torch==2.1.0
+    - torchvision==0.16.0
+    - pillow>=10.0.0
+  gpu: true
+  cuda: "12.1"
+
+predict: "predict.py:Predictor"
