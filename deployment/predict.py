@@ -1,3 +1,4 @@
+import numpy as np  # Required by PyTorch
 import torch
 import torch.nn as nn
 from PIL import Image
