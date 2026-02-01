@@ -58,6 +58,14 @@ export const JOB_CONFIG = {
 
 export const AI_MODELS = {
   replicate: {
+    // ReBloom Sharp - Notre modèle custom de défloutage
+    rebloomSharp: {
+      id: 'emmanuelzerb/rebloom-sharp',
+      name: 'ReBloom Sharp',
+      description: 'Notre modèle IA de défloutage haute qualité',
+      supportsScale: false,
+      supportsFaceEnhance: false,
+    },
     // Real-ESRGAN - Best for general image enhancement
     realEsrgan: {
       id: 'nightmareai/real-esrgan:f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa',
@@ -77,7 +85,8 @@ export const AI_MODELS = {
   },
 } as const;
 
-export const DEFAULT_MODEL = AI_MODELS.replicate.realEsrgan;
+// Utiliser notre modèle ReBloom Sharp par défaut !
+export const DEFAULT_MODEL = AI_MODELS.replicate.rebloomSharp;
 
 // ============================================
 // API Routes

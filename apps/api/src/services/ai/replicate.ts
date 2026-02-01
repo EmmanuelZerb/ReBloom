@@ -25,16 +25,19 @@ export class ReplicateProvider implements IAIProvider {
     const startTime = Date.now();
     const { scaleFactor = 4, faceEnhance = false } = options;
 
-    logger.info({ imageUrl, scaleFactor, faceEnhance }, 'Starting Replicate enhancement');
+    logger.info({ imageUrl, scaleFactor, faceEnhance, model: DEFAULT_MODEL.name }, 'Starting Replicate enhancement');
 
     try {
-      // Utiliser Real-ESRGAN
-      const output = await this.client.run(DEFAULT_MODEL.id as `${string}/${string}:${string}`, {
-        input: {
-          image: imageUrl,
-          scale: scaleFactor,
-          face_enhance: faceEnhance,
-        },
+      // Construire les inputs selon le modèle
+      const isRebloomSharp = DEFAULT_MODEL.id.includes('rebloom-sharp');
+      
+      const input = isRebloomSharp 
+        ? { image: imageUrl }  // ReBloom Sharp n'a qu'un seul input
+        : { image: imageUrl, scale: scaleFactor, face_enhance: faceEnhance };
+
+      // Utiliser le modèle configuré
+      const output = await this.client.run(DEFAULT_MODEL.id as `${string}/${string}` | `${string}/${string}:${string}`, {
+        input,
       });
 
       const processingTimeMs = Date.now() - startTime;
@@ -69,8 +72,9 @@ export class ReplicateProvider implements IAIProvider {
 
   async isAvailable(): Promise<boolean> {
     try {
-      // Simple check - try to list models
-      await this.client.models.get('nightmareai', 'real-esrgan');
+      // Vérifier que le modèle ReBloom Sharp est disponible
+      const [owner, name] = DEFAULT_MODEL.id.split('/');
+      await this.client.models.get(owner, name.split(':')[0]);
       return true;
     } catch {
       return false;
@@ -91,19 +95,31 @@ export async function createReplicatePrediction(
   });
 
   const { scaleFactor = 4, faceEnhance = false } = options;
+  const isRebloomSharp = DEFAULT_MODEL.id.includes('rebloom-sharp');
 
-  const prediction = await client.predictions.create({
-    version: DEFAULT_MODEL.id.split(':')[1],
-    input: {
-      image: imageUrl,
-      scale: scaleFactor,
-      face_enhance: faceEnhance,
-    },
-    webhook: webhookUrl,
-    webhook_events_filter: ['completed'],
-  });
+  // Input selon le modèle
+  const input = isRebloomSharp 
+    ? { image: imageUrl }
+    : { image: imageUrl, scale: scaleFactor, face_enhance: faceEnhance };
 
-  logger.info({ predictionId: prediction.id }, 'Replicate prediction created');
+  // Pour ReBloom Sharp (sans version hash), utiliser model au lieu de version
+  const predictionConfig: Parameters<typeof client.predictions.create>[0] = isRebloomSharp
+    ? {
+        model: DEFAULT_MODEL.id as `${string}/${string}`,
+        input,
+        webhook: webhookUrl,
+        webhook_events_filter: ['completed'],
+      }
+    : {
+        version: DEFAULT_MODEL.id.split(':')[1],
+        input,
+        webhook: webhookUrl,
+        webhook_events_filter: ['completed'],
+      };
+
+  const prediction = await client.predictions.create(predictionConfig);
+
+  logger.info({ predictionId: prediction.id, model: DEFAULT_MODEL.name }, 'Replicate prediction created');
 
   return { predictionId: prediction.id };
 }
