@@ -41,11 +41,14 @@ jobs:
         env:
           REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
 
-      - name: Push to Replicate
+      - name: Build and Push to Replicate (no cache)
         env:
           REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+          DOCKER_BUILDKIT: 1
         working-directory: ./deployment
         run: |
           echo "Token length: ${#REPLICATE_API_TOKEN}"
           echo "$REPLICATE_API_TOKEN" | cog login --token-stdin
+          # Force rebuild without cache
+          cog build --no-cache -t rebloom-sharp-temp
           cog push r8.im/emmanuelzerb/rebloom-sharp
